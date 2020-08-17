@@ -16,6 +16,9 @@ SynthVのスクリプトフォルダをエクスプローラーかSynthV Studio�
 オススメの使い方はショートカットでspacebarに置き換えです.  
 ただやってた感じ他のアプリでキーボードの割り当て変えてたりするとガバる可能性があるんでダメそうなら他のキーにしてみてください.  
 
+## ライセンス
+[Apache-2.0}(https://www.apache.org/licenses/LICENSE-2.0)
+
 ## 連絡先
 ゆきかざり   
 Twitter:[@hanayuki7793](https://twitter.com/hanayuki7793)  
