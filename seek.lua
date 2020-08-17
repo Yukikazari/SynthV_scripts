@@ -3,7 +3,7 @@ function getClientInfo()
       name = "seek",
       category = "Play",
       author = "Yukikazari",
-      versionNumber = 2,
+      versionNumber = 1.1,
       minEditorVersion = 65540
     }
 end
