@@ -28,6 +28,11 @@ SynthV起動時のみのKeySwapアプリとかまぁ…うん…
 ## ライセンス
 [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
+## 更新履歴
+### seek.lua
+2020/8/17 v1.1公開 シーク時の挙動とスケール変更時の挙動をちょっと使いやすく
+2020/8/17 v1.0公開
+
 ## 連絡先
 ゆきかざり   
 Twitter:[@hanayuki7793](https://twitter.com/hanayuki7793)  
