@@ -10,7 +10,7 @@ SynthVのスクリプト作りたいねーってやつです
 
 ## seek.lua
 スクリプトはPlay/seekです.  
-ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8/seek.lua)  
+ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.2/seek.lua)  
 シーク再生するスクリプトです  
 再生開始したタイミングに戻ってるだけなので表示位置は元と違う可能性が高いです  
 問題がありそうなら元の位置に戻るようにするかもしれません   
