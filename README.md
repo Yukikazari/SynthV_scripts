@@ -9,7 +9,7 @@ SynthVのスクリプト作りたいねーってやつです
 3.スクリプトを選択して実行  
 
 ## seek.lua
-スクリプトはPlay/seekです.  
+スクリプトは\[Play/seek]です  
 ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.2/seek.lua)  
 シーク再生するスクリプトです  
 再生開始したタイミングに戻ってるだけなので表示位置は元と違う可能性が高いです  
@@ -24,6 +24,14 @@ spacebarに割り当てした場合デフォルト設定と競合して正常に
 
 あたりで対処してください.  
 SynthV起動時のみのKeySwapアプリとかまぁ…うん…  
+
+## ChangeLyrics_default2pitch.lua
+スクリプトは\[Lyrics/歌詞をどれみにするやつ]です  
+ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.3/ChangeLyrics_default2pitch.lua)  
+デフォルト設定のままの歌詞のみをCeVIOライクな音階歌詞に変更するスクリプトです  
+デフォルトの歌詞を"la"以外に変更している場合はluaファイル内1行目をその歌詞に書き換えてください  
+
+これいる？(謎)  
 
 ## ライセンス
 [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
