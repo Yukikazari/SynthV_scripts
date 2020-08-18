@@ -41,6 +41,9 @@ SynthV起動時のみのKeySwapアプリとかまぁ…うん…
 2020/8/17 v1.1公開 シーク時の挙動とスケール変更時の挙動をちょっと使いやすく  
 2020/8/17 v1.0公開
 
+### ChangeLyrics_default2pitch.lua
+2020/8/19 v1.0公開
+
 ## 連絡先
 ゆきかざり   
 Twitter:[@hanayuki7793](https://twitter.com/hanayuki7793)  
