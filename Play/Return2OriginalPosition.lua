@@ -3,7 +3,7 @@ function getClientInfo()
       name = SV:T("Return to Original Position"),
       category = "Play",
       author = "Yukikazari",
-      versionNumber = 1.1,
+      versionNumber = 1.2,
       minEditorVersion = 65540
     }
 end
