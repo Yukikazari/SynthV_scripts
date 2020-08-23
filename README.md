@@ -8,10 +8,14 @@ SynthVのスクリプト作りたいねーってやつです
 2.再スキャンを実行  
 3.スクリプトを選択して実行  
 
-## seek.lua
-スクリプトは\[Play/seek]です  
-ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.2/seek.lua)  
-シーク再生するスクリプトです  
+## 一括ダウンロード
+[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4b/Yukikazari.zip)から全ファイル一括ダウンロードが出来ます  
+
+## Return2OriginalPosition.lua
+スクリプトは\[Play/再生後元の位置に戻る]です  
+ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4a/Return2OriginalPosition.lua)  
+再生終了時に再生開始ポイントに戻るスクリプトです  
+seek.luaって付けてましたけどよく考えたらシーク再生じゃなかったので変更しました  
 再生開始時点でのバーの位置と画面内での座標を記録しておいてそこに戻るようになっています  
 ほぼほぼ同じ位置に戻るはずですが割合で戻してるので1mm前後のズレが生じる可能性があります  
 例外処理雑なのでエラー吐いたら停止状態でスクリプト実行してみてください  
@@ -35,7 +39,8 @@ SynthV起動時のみのKeySwapアプリとかまぁ…うん…
 
 
 ## 更新履歴
-### seek.lua
+### Return2OriginalPosition.lua
+2020/8/23 v1.2公開 名称の変更, 他言語対応  
 2020/8/17 v1.1公開 シーク時の挙動とスケール変更時の挙動をちょっと使いやすく  
 2020/8/17 v1.0公開
 
