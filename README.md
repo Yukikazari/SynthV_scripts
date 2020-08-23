@@ -1,16 +1,20 @@
-# 共通の使い方
+# SynthVスクリプト
+
+## 共通の使い方
 1.ダウンロードしてSynthVの\[スクリプト→スクリプトフォルダを開く]で表示されるフォルダに入れる  
 2.再スキャンを実行  
 3.スクリプトを選択して実行  
 <br>
 
-# スクリプト
+## スクリプト
 
-## 一括ダウンロード
+### 一括ダウンロード
 [ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4b/Yukikazari.zip)から現状動作が確認できているスクリプトファイルを一括ダウンロードが出来ます  
+その他動作保障のないスクリプトは全て\[SynthV_scripts/scripts]にあります  
+利用する場合は[ここ](https://github.com/Yukikazari/SynthV_scripts/archive/master.zip)からダウンロードすることが出来ます    
 <br>
 
-## Return2OriginalPosition.lua
+### Return2OriginalPosition.lua
 スクリプトは\[Play/再生後元の位置に戻る]です  
 ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4a/Return2OriginalPosition.lua)  
 再生終了時に再生開始ポイントに戻るスクリプトです  
@@ -28,7 +32,7 @@ seek.luaって付けてましたけどよく考えたらシーク再生じゃな
 SynthV起動時のみのKeySwapアプリとかまぁ…うん…  
 <br>
 
-## ChangeLyrics_default2pitch.lua
+### ChangeLyrics_default2pitch.lua
 スクリプトは\[Lyrics/歌詞をどれみにするやつ]です  
 ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.3/ChangeLyrics_default2pitch.lua)  
 デフォルト設定のままの歌詞のみをCeVIOライクな音階歌詞に変更するスクリプトです  
@@ -37,7 +41,7 @@ SynthV起動時のみのKeySwapアプリとかまぁ…うん…
 これいる？(謎)  
 <br>
 
-# 更新履歴
+## 更新履歴
 ### Return2OriginalPosition.lua
 2020/8/23 v1.2公開 名称の変更, 他言語対応  
 2020/8/17 v1.1公開 シーク時の挙動とスケール変更時の挙動をちょっと使いやすく  
@@ -47,13 +51,13 @@ SynthV起動時のみのKeySwapアプリとかまぁ…うん…
 2020/8/19 v1.0公開  
 <br>
 
-# 連絡先
+## 連絡先
 ゆきかざり   
 Twitter:[@hanayuki7793](https://twitter.com/hanayuki7793)  
 <br>
 
 
-# ライセンス
+## ライセンス
 Copyright 2020 Yukikazari
 
 Licensed under the Apache License, Version 2.0 (the “License”);
