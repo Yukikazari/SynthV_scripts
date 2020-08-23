@@ -1,22 +1,28 @@
 # SynthVスクリプト
-
+[download](https://img.shields.io/npm/dt/SynthV_scripts.svg) 
+[license](https://img.shields.io/npm/dt/SynthV_scripts.svg)
 ## 共通の使い方
 1.ダウンロードしてSynthVの\[スクリプト→スクリプトフォルダを開く]で表示されるフォルダに入れる  
 2.再スキャンを実行  
 3.スクリプトを選択して実行  
 <br>
 
-## スクリプト
+## ダウンロード
 
-### 一括ダウンロード
-[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4b/Yukikazari.zip)から現状動作が確認できているスクリプトファイルを一括ダウンロードが出来ます  
-その他動作保障のないスクリプトは全て\[SynthV_scripts/scripts]にあります  
-利用する場合は[ここ](https://github.com/Yukikazari/SynthV_scripts/archive/master.zip)からダウンロードすることが出来ます    
+### [**一括ダウンロード**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4b/Yukikazari.zip)  
+現状動作が確認できているスクリプトファイルの一括ダウンロード  
+
+[**Return2OriginalPosition.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4a/Return2OriginalPosition.lua)  
+
+[**ChangeLyrics_default2pitch.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.3/ChangeLyrics_default2pitch.lua)
+
+[その他動作保障のないスクリプト](https://github.com/Yukikazari/SynthV_scripts/archive/master.zip)  
 <br>
+
+## スクリプト説明
 
 ### Return2OriginalPosition.lua
 スクリプトは\[Play/再生後元の位置に戻る]です  
-ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4a/Return2OriginalPosition.lua)  
 再生終了時に再生開始ポイントに戻るスクリプトです  
 seek.luaって付けてましたけどよく考えたらシーク再生じゃなかったので変更しました  
  
@@ -34,7 +40,6 @@ SynthV起動時のみのKeySwapアプリとかまぁ…うん…
 
 ### ChangeLyrics_default2pitch.lua
 スクリプトは\[Lyrics/歌詞をどれみにするやつ]です  
-ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.3/ChangeLyrics_default2pitch.lua)  
 デフォルト設定のままの歌詞のみをCeVIOライクな音階歌詞に変更するスクリプトです  
 デフォルトの歌詞を"la"以外に変更している場合はluaファイル内1行目をその歌詞に書き換えてください  
 
