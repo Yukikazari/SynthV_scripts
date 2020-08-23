@@ -45,11 +45,13 @@ function main()
             end
 
         else
+            local count = 0
             for i, Note in ipairs(Notes) do
+                    Note:setOnset(Note:getOnset() - isDuration * count)                
                 if Note:getDuration() > isDuration then
                     Note:setDuration(Note:getDuration() - isDuration)
+                    count = count + 1
                 end
-                Note:setOnset(Note:getOnset() - isDuration * (i - 1))                
             end
         end
     end
