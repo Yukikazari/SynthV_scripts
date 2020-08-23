@@ -1,6 +1,6 @@
 # SynthVスクリプト
-[download](https://img.shields.io/github/downloads/Yukikazari/SynthV_scripts/total) 
-[license](https://img.shields.io/github/license/Yukikazari/SynthV_scripts)
+![download](https://img.shields.io/github/downloads/Yukikazari/SynthV_scripts/total) 
+![license](https://img.shields.io/github/license/Yukikazari/SynthV_scripts)
 ## 共通の使い方
 1.ダウンロードしてSynthVの\[スクリプト→スクリプトフォルダを開く]で表示されるフォルダに入れる  
 2.再スキャンを実行  
