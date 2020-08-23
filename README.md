@@ -1,26 +1,24 @@
-# SynthV_scripts
-
-## これはなに
-SynthVのスクリプト作りたいねーってやつです
-
-## 共通の使い方
+# 共通の使い方
 1.ダウンロードしてSynthVの\[スクリプト→スクリプトフォルダを開く]で表示されるフォルダに入れる  
 2.再スキャンを実行  
 3.スクリプトを選択して実行  
+<br>
+
+# スクリプト
 
 ## 一括ダウンロード
-[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4b/Yukikazari.zip)から全ファイル一括ダウンロードが出来ます  
+[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4b/Yukikazari.zip)から現状動作が確認できているスクリプトファイルを一括ダウンロードが出来ます  
+<br>
 
 ## Return2OriginalPosition.lua
 スクリプトは\[Play/再生後元の位置に戻る]です  
 ダウンロードは[ここ](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4a/Return2OriginalPosition.lua)  
 再生終了時に再生開始ポイントに戻るスクリプトです  
 seek.luaって付けてましたけどよく考えたらシーク再生じゃなかったので変更しました  
-再生開始時点でのバーの位置と画面内での座標を記録しておいてそこに戻るようになっています  
-ほぼほぼ同じ位置に戻るはずですが割合で戻してるので1mm前後のズレが生じる可能性があります  
+ 
 例外処理雑なのでエラー吐いたら停止状態でスクリプト実行してみてください  
 
-spacebarに割り当てした場合デフォルト設定と競合して正常に作動しない可能性があります  
+\:warning: spacebarに割り当てした場合デフォルト設定と競合して正常に作動しない可能性があります  
 対処法として  
 - 他のキーを割り当てに使う  
 - 日本語入力のspacebarを使う(文字コードが違うため別のキーと認識されるようです)  
@@ -28,6 +26,7 @@ spacebarに割り当てした場合デフォルト設定と競合して正常に
 
 あたりで対処してください.  
 SynthV起動時のみのKeySwapアプリとかまぁ…うん…  
+<br>
 
 ## ChangeLyrics_default2pitch.lua
 スクリプトは\[Lyrics/歌詞をどれみにするやつ]です  
@@ -36,24 +35,25 @@ SynthV起動時のみのKeySwapアプリとかまぁ…うん…
 デフォルトの歌詞を"la"以外に変更している場合はluaファイル内1行目をその歌詞に書き換えてください  
 
 これいる？(謎)  
+<br>
 
-
-## 更新履歴
+# 更新履歴
 ### Return2OriginalPosition.lua
 2020/8/23 v1.2公開 名称の変更, 他言語対応  
 2020/8/17 v1.1公開 シーク時の挙動とスケール変更時の挙動をちょっと使いやすく  
 2020/8/17 v1.0公開
 
 ### ChangeLyrics_default2pitch.lua
-2020/8/19 v1.0公開
+2020/8/19 v1.0公開  
+<br>
 
-## 連絡先
+# 連絡先
 ゆきかざり   
 Twitter:[@hanayuki7793](https://twitter.com/hanayuki7793)  
+<br>
 
 
-
-## ライセンス
+# ライセンス
 Copyright 2020 Yukikazari
 
 Licensed under the Apache License, Version 2.0 (the “License”);
