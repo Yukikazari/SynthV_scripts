@@ -24,8 +24,6 @@
     - #### 再生後元の位置に戻る (Return2OriginalPosition.lua)
         >再生終了時に再生開始ポイントに戻るスクリプトです  
         seek.luaって付けてましたけどよく考えたらシーク再生じゃなかったので変更しました  
-
-        >SynthV起動時のみのKeySwapアプリとかまぁ…うん…  
 <br>
 
 - ### Lyrics
