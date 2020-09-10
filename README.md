@@ -9,21 +9,31 @@
 
 ## ダウンロード
 
-### [**一括ダウンロード**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4b/Yukikazari.zip)  
+### [**一括ダウンロード**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/Yukikazari.zip)  
 >現状動作が確認できているスクリプトファイルの一括ダウンロード  
+おすすめです
 
->[**Return2OriginalPosition.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.4a/Return2OriginalPosition.lua)  
+[**Return2OriginalPosition.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/Return2OriginalPosition.lua)  
 
->[**ChangeLyrics_default2pitch.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F8.3/ChangeLyrics_default2pitch.lua)
+[**Return2OriginalPosition_Res.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/Return2OriginalPosition_Res.lua)  
 
-[その他動作保障のないスクリプト](https://github.com/Yukikazari/SynthV_scripts/archive/master.zip)  
+[**ChangeLyrics_default2pitch.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/ChangeLyrics_default2pitch.lua)
+
+[その他動作保障のないものを含む全てのスクリプト](https://github.com/Yukikazari/SynthV_scripts/archive/master.zip)  
 <br>
 
 ## スクリプト内容
 - ### Playback
     - #### 再生後元の位置に戻る (Return2OriginalPosition.lua)
         >再生終了時に再生開始ポイントに戻るスクリプトです  
+        再生/終了の両方で利用してください  
         seek.luaって付けてましたけどよく考えたらシーク再生じゃなかったので変更しました  
+
+    - #### 再生後元の位置に戻る 常駐型 (Return2OriginalPosition_Res.lua)
+        >上記スクリプトの常駐型です  
+        通常の再生/終了処理を検知して再生バーを移動させます  
+        他の再生系スクリプトと同時に利用すると意図しない動作をする可能性があります  
+
 <br>
 
 - ### Lyrics
@@ -33,6 +43,7 @@
         デフォルトの歌詞を"la"以外に変更している場合はluaファイル内1行目をその歌詞に書き換えてください  
 
         >これいる？(謎)  
+
 <br>
 
 ## 更新履歴
@@ -40,6 +51,9 @@
 2020/8/23 v1.2公開 名称の変更, 他言語対応  
 2020/8/17 v1.1公開 シーク時の挙動とスケール変更時の挙動をちょっと使いやすく  
 2020/8/17 v1.0公開
+
+### Return2OriginalPosition_Res.lua
+2020/9/10 v1.0公開
 
 ### ChangeLyrics_default2pitch.lua
 2020/8/19 v1.0公開  
