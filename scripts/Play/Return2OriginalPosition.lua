@@ -4,7 +4,7 @@ function getClientInfo()
       category = "Play",
       author = "Yukikazari",
       versionNumber = 1.2,
-      minEditorVersion = 65540
+      minEditorVersion = 2^16 + 8
     }
 end
 

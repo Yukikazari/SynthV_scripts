@@ -13,7 +13,7 @@ function getClientInfo()
       category = "Notes",
       author = "Yukikazari",
       versionNumber = 1,
-      minEditorVersion = 65540
+      minEditorVersion = 2^16 + 8
     }
 end
 
