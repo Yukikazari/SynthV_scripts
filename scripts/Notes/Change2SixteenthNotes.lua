@@ -3,7 +3,7 @@ isDuration = QUARTER / 4
 
 function getClientInfo()
     return {
-      name = SV:T("Change Sixteenth Notes"),
+      name = SV:T("Change to Sixteenth Notes"),
       category = "Notes",
       author = "Yukikazari",
       versionNumber = 1,
@@ -14,7 +14,7 @@ end
 function getTranslations(langCode)
     if langCode == "ja-jp" then
         return {
-            {"Change Sixteenth Notes", "16分音符にする"}
+            {"Change to Sixteenth Notes", "16分音符にする"}
         }
     end
     return {}

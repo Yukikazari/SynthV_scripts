@@ -3,7 +3,7 @@ isDuration = QUARTER / 2
 
 function getClientInfo()
     return {
-      name = SV:T("Change Eighth Notes"),
+      name = SV:T("Change to Eighth Notes"),
       category = "Notes",
       author = "Yukikazari",
       versionNumber = 1,
@@ -14,7 +14,7 @@ end
 function getTranslations(langCode)
     if langCode == "ja-jp" then
         return {
-            {"Change Eighth Notes", "8分音符にする"}
+            {"Change to Eighth Notes", "8分音符にする"}
         }
     end
     return {}

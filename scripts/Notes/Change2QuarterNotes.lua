@@ -3,7 +3,7 @@ isDuration = QUARTER
 
 function getClientInfo()
     return {
-      name = SV:T("Change Quarter Notes"),
+      name = SV:T("Change to Quarter Notes"),
       category = "Notes",
       author = "Yukikazari",
       versionNumber = 1,
@@ -14,7 +14,7 @@ end
 function getTranslations(langCode)
     if langCode == "ja-jp" then
         return {
-            {"Change Quarter Notes", "4分音符にする"}
+            {"Change to Quarter Notes", "4分音符にする"}
         }
     end
     return {}
