@@ -8,7 +8,7 @@ settings = {
 
 function getClientInfo()
     return {
-      name = SV:T("Return to Original Position [Resident]"),
+      name = SV:T("[Resident] Return to Original Position"),
       category = "Play",
       author = "Yukikazari",
       versionNumber = 1,
@@ -19,7 +19,7 @@ end
 function getTranslations(langCode)
     if langCode == "ja-jp" then
         return {
-            {"Return to Original Position [Resident]", "再生後元の位置に戻る 常駐型"},
+            {"[Resident] Return to Original Position", "再生後元の位置に戻る 常駐型"},
             {"Script : ON", "スクリプトを開始しました"}
         }
     end

@@ -20,7 +20,7 @@ motiontype[2] = 1
 
 function getClientInfo()
     return {
-      name = SV:T("Lengthen Eighth Notes"),
+      name = SV:T("Eighth Notes Longer"),
       category = "Notes",
       author = "Yukikazari",
       versionNumber = 1,
@@ -31,7 +31,7 @@ end
 function getTranslations(langCode)
     if langCode == "ja-jp" then
         return {
-            {"Lengthen Eighth Notes", "8分音符分伸ばす"}
+            {"Eighth Notes Longer", "8分音符分伸ばす"}
         }
     end
     return {}
