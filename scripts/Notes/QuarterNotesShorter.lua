@@ -1,31 +1,22 @@
 QUARTER = 705600000
 isDuration = QUARTER
 
--- motiontype[1]と[2]は両方同じ数値にした方が使いやすいと思います
 motiontype = {}
 --[[
-motiontype[1] 0 : 複数ノート選択時に位置を保持する
-motiontype[1] 1 : 複数ノート選択時に生じた間隔を埋める
+motiontype[1] 0 : 何もしない
+motiontype[1] 1 : 同じフレーズに含まれるノートの位置を調整する
 
-__Longer.luaと逆にするのがおすすめです
+__Longer.luaと同じにするのがおすすめです
 ]]
 motiontype[1] = 1
 
 --[[
 motiontype[2] 0 : 何もしない
-motiontype[2] 1 : 同じフレーズに含まれるノートの位置を調整する
-
-__Longer.luaと同じにするのがおすすめです
-]]
-motiontype[2] = 1
-
---[[
-motiontype[3] 0 : 何もしない
 motiontype[2] 1 : 選択範囲、または同じフレーズ内に含まれるノートグループの位置を調節する
 
 好みによります。スクリプトによるノートグループの移動はctrl+Zなどで戻せないので注意してください。
 ]]
-motiontype[3] = 1
+motiontype[2] = 1
 
 function getClientInfo()
     return {
@@ -135,8 +126,8 @@ function main()
     local backNotes = {}
     local backNoteGroupReferences = {}
 
-    -- motiontype[2]==1の場合のみ
-    if (#Notes > 0) and (motiontype[2] == 1) then
+    -- motiontype[1]==1の場合のみ
+    if (#Notes > 0) and (motiontype[1] == 1) then
         local Note = Notes[#Notes]
 
         -- ノートグループの取得 getGroupReference(1)はメインノートグループ
@@ -203,9 +194,9 @@ function main()
     elseif #Notes > 1 then
         for i, Note in ipairs(Notes) do
             t_Onset = Note:getOnset()
-            if motiontype[1] == 1 then
-                Note:setOnset(t_Onset - isDuration * count)
-            end
+
+            Note:setOnset(t_Onset - isDuration * count)
+
             if Note:getDuration() > isDuration then
                 Note:setDuration(Note:getDuration() - isDuration)
                 count = count + 1
@@ -214,7 +205,7 @@ function main()
         end
     end
 
-    if (#Notes > 0) and (motiontype[2] == 1) then
+    if (#Notes > 0) and (motiontype[1] == 1) then
         --[[
         @param{array} backNotes
         @param{array} backNoteGroupReferences
@@ -225,7 +216,7 @@ function main()
 
         local lastonsetindex = 1
 
-        if motiontype[3] == 1 then
+        if motiontype[2] == 1 then
             for i=1, #backNoteGroupReferences do
                 local t_Onset = backNoteGroupReferences[i]:getOnset()
                 for i=lastonsetindex, #onsets do

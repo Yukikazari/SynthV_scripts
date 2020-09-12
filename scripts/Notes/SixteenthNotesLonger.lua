@@ -1,15 +1,26 @@
 QUARTER = 705600000
 isDuration = QUARTER / 4
 
+motiontype = {}
 --[[
-motiontype 0 : 複数ノート選択時に間隔を保持する
-motiontype 1 : 複数ノート選択時に間隔をなるべく埋める
+motiontype[1] 0 : 何もしない
+motiontype[1] 1 : 同じフレーズに含まれるノートの位置を調整する
+
+__Shorter.luaと同じにするのがおすすめです
 ]]
-motiontype = 0
+motiontype[1] = 1
+
+--[[
+motiontype[2] 0 : 何もしない
+motiontype[2] 1 : 選択範囲、または同じフレーズ内に含まれるノートグループの位置を調節する
+
+好みによります。スクリプトによるノートグループの移動はctrl+Zなどで戻せないので注意してください。
+]]
+motiontype[2] = 1
 
 function getClientInfo()
     return {
-      name = SV:T("Lengthen Sixteenth Notes"),
+      name = SV:T("Sixteenth Notes Longer"),
       category = "Notes",
       author = "Yukikazari",
       versionNumber = 1,
@@ -20,44 +31,199 @@ end
 function getTranslations(langCode)
     if langCode == "ja-jp" then
         return {
-            {"Lengthen Sixteenth Notes", "16分音符分伸ばす"}
+            {"Sixteenth Notes Longer", "16分音符分伸ばす"}
         }
     end
     return {}
 end
 
+function getGroups()
+    --[[
+        現在のトラックに含まれるMainGroup以外のノートのリストを取得します。
+
+        return : NoteGroupReferences (array)
+    ]]
+    local NoteGroupReferences = {}
+    local NoteGroupsNum = Track:getNumGroups()
+
+    if NoteGroupsNum > 1 then
+        for i=1, NoteGroupsNum-1 do
+            NoteGroupReferences[i] = Track:getGroupReference(i+1)
+        end
+    end
+    return NoteGroupReferences
+end
+
+function getTargetNote(Note)
+    --[[
+        対象のノートのMainGroupにおけるindexを取得します。
+        param : Note (object)
+        return : index (number)
+    ]]
+    local MainNoteGroup = Track:getGroupReference(1):getTarget()
+    local MainNoteGroupNumNotes = MainNoteGroup:getNumNotes()
+    local targetOnset = Note:getOnset()
+    local targetNoteindex = -1
+
+    -- Onsetを参照しindexを取得する
+    for i=1, MainNoteGroupNumNotes do
+        if MainNoteGroup:getNote(i):getOnset() == targetOnset then
+            targetNoteindex = i
+            break
+        end
+    end
+
+    -- 同じOnsetに複数のノートがあった場合に5個先までのノートを探索する
+    if MainNoteGroup:getNote(targetNoteindex) ~= Note then
+        for i=1, math.min(5, MainNoteGroupNumNotes - targetNoteindex) do
+            if MainNoteGroup:getNote(targetNoteindex + i) == Note then
+                targetNoteindex = targetNoteindex + i
+                break
+            end
+        end
+    end
+
+    if targetNoteindex == -1 then
+        return 1
+    end
+
+    return targetNoteindex
+
+end
+
+function getNearNoteGroupindex(Note, NoteGroupReferences)
+    --[[
+        対象のノートより前にある最も近いノートグループのindexを取得します。
+        そのようなノートグループが存在しない場合はindexとしてノートグループの数を返します。
+        param : Note (object)
+                NoteGroupReferences (object)
+
+        return : index (number)
+    ]]
+    local starttiming = Note:getOnset()
+    local lastNoteGroupindex = -1
+
+    for i=1, #NoteGroupReferences do
+        local t_st = NoteGroupReferences[i]:getOnset()
+        if t_st >= starttiming then
+            lastNoteGroupindex = i - 1
+            break
+        end
+    end
+
+    if lastNoteGroupindex == -1 then
+        return #NoteGroupReferences
+    end
+
+    return lastNoteGroupindex
+end
+
 function main()
-    local TrackInnerSelectionState = SV:getMainEditor():getSelection()
-    local Notes = TrackInnerSelectionState:getSelectedNotes()
+    TrackInnerSelectionState = SV:getMainEditor():getSelection()
+    Track = SV:getMainEditor():getCurrentTrack()
+    Notes = TrackInnerSelectionState:getSelectedNotes()
+
+    local backNotes = {}
+    local backNoteGroupReferences = {}
+
+    -- motiontype[1]==1の場合のみ
+    if (#Notes > 0) and (motiontype[1] == 1) then
+        local Note = Notes[#Notes]
+
+        -- ノートグループの取得 getGroupReference(1)はメインノートグループ
+        local NoteGroupReferences = getGroups(Track)
+
+        local MainNoteGroup = Track:getGroupReference(1):getTarget()
+        local MainNoteGroupNumNotes = MainNoteGroup:getNumNotes()
+
+        -- 最終ノートのindexを取得
+        local lastNoteindex = getTargetNote(Note)
+        
+        -- 始点ノートより手前にある最も近いノートグループのindexを取得
+        local lastNoteGroupindex = getNearNoteGroupindex(Notes[1], NoteGroupReferences)
+
+        local starttiming = Notes[1]:getOnset()
+        local lasttiming = Note:getOnset() + Note:getDuration()
+
+        local isNext = true
+
+        -- 選択している範囲と接しているノートとノートグループを取得
+        while isNext do
+            isNext = false
+            t_lastNoteindex = lastNoteindex
+            t_lastNoteGroupindex = lastNoteGroupindex
+
+            while t_lastNoteindex < MainNoteGroupNumNotes do
+                local tNote = MainNoteGroup:getNote(t_lastNoteindex + 1)
+                if tNote:getOnset() <= lasttiming and tNote:getOnset() >= starttiming then
+                    backNotes[#backNotes + 1] = tNote
+                    t_lastNoteindex = t_lastNoteindex + 1
+                    lastNoteindex = t_lastNoteindex
+                    lasttiming = math.max(lasttiming, tNote:getOnset() + tNote:getDuration())
+                    isNext = true
+                else
+                    break
+                end
+            end
+            
+            while t_lastNoteGroupindex < #NoteGroupReferences do
+                local tNoteGroupReference = NoteGroupReferences[t_lastNoteGroupindex + 1]
+                if tNoteGroupReference:getOnset() <= lasttiming and tNoteGroupReference:getOnset() >= starttiming then
+                    backNoteGroupReferences[#backNoteGroupReferences + 1] = tNoteGroupReference
+                    t_lastNoteGroupindex = t_lastNoteGroupindex + 1
+                    lastNoteGroupindex = t_lastNoteGroupindex
+                    lasttiming = math.max(lasttiming, tNoteGroupReference:getEnd())
+                    isNext = true
+                else
+                    break
+                end
+            end
+        end
+    end
+
+    local count = 0
+    local onsets = {}
 
     if #Notes == 1 then
         local Note = Notes[1]
         Note:setDuration(Note:getDuration() + isDuration)
+        count = 1
 
-    elseif #Notes > 1 then
-        if motiontype == 0 then
-            local extention = 0            
-            for i, Note in ipairs(Notes) do
-                local duration = Note:getDuration()
-                Note:setOnset(Note:getOnset() + extention)
-                Note:setDuration(duration + isDuration)
-                extention = extention + isDuration
-            end
+    elseif #Notes > 1 then      
+        for i, Note in ipairs(Notes) do
+            t_Onset = Note:getOnset()
 
-        else
-            local isOnset = Notes[1]:getOnset()
-            for i, Note in ipairs(Notes) do
-                local duration = Note:getDuration()
-                Note:setOnset(isOnset)
-                Note:setDuration(duration + isDuration)
-                if i ~= #Notes then
-                    local nextOnset = Notes[i+1]:getOnset()
-                    if isOnset + duration + isDuration > nextOnset then
-                        isOnset = isOnset + duration + isDuration
-                    else
-                        isOnset = nextOnset
+            Note:setOnset(t_Onset + isDuration * count)
+
+            Note:setDuration(Note:getDuration() + isDuration)
+            count = count + 1
+
+            onsets[#onsets + 1] = {o = t_Onset, c = count}
+        end
+    end
+
+    if (#Notes > 0) and (motiontype[1] == 1) then
+        --[[
+        @param{array} backNotes
+        @param{array} backNoteGroupReferences
+        ]]
+        for i=1, #backNotes do
+            backNotes[i]:setOnset(backNotes[i]:getOnset() + isDuration * count)
+        end
+
+        local lastonsetindex = 1
+
+        if motiontype[2] == 1 then
+            for i=1, #backNoteGroupReferences do
+                local t_Onset = backNoteGroupReferences[i]:getOnset()
+                for i=lastonsetindex, #onsets do
+                    if onsets[i]["o"] > t_Onset then
+                        count = onsets[i-1]["c"]
+                        lastonsetindex = i
+                        break
                     end
                 end
+                backNoteGroupReferences[i]:setTimeOffset(backNoteGroupReferences[i]:getTimeOffset() + isDuration * count)
             end
         end
     end
