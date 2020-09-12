@@ -9,15 +9,21 @@
 
 ## ダウンロード
 
-### [**一括ダウンロード**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/Yukikazari.zip)  
+### [**一括ダウンロード**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9.2/Yukikazari.zip)  
 >現状動作が確認できているスクリプトファイルの一括ダウンロード  
 おすすめです
 
 - [**Return2OriginalPosition.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/Return2OriginalPosition.lua)  
 
-- [**Return2OriginalPosition_Res.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/Return2OriginalPosition_Res.lua)  
+- [**Return2OriginalPosition_Res.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9.2/Return2OriginalPosition_Res.lua)  
 
-- [**ChangeLyrics_default2pitch.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/ChangeLyrics_default2pitch.lua)
+- [**ChangeLyrics_default2pitch.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/ChangeLyrics_default2pitch.lua)  
+
+- [**Changes.zip**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9.2/Changes.zip)  
+
+- [**Longers.zip**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9.2/Longers.zip)  
+
+- [**Shorters.zip**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9.2/Shorters.zip)  
 
 [その他動作保障のないものを含む全てのスクリプト](https://github.com/Yukikazari/SynthV_scripts/archive/master.zip)  
 <br>
@@ -46,6 +52,30 @@
 
 <br>
 
+- ### Notes  
+    - #### ___にする(Change2\_\_\_.lua)  
+        >選択した任意の数のノートの長さを一括で変更します  
+        他のノートやノートグループの位置は変更されません
+
+    - #### ___分伸ばす(\_\_\_NotesLonger.lua)  
+        >選択した任意の数のノートの長さを一定値伸ばします  
+        設定により他のノートやノートグループの位置を変更するかどうか選択ができます  
+        ファイル内のmotiontypeの値を変更してください  
+
+    - #### ___分縮める(\_\_\_NotesShorter.lua)  
+        >選択した任意の数のノートの長さを一定値縮めます  
+        設定により他のノートやノートグループの位置を変更するかどうか選択ができます  
+        ファイル内のmotiontypeの値を変更してください  
+
+    以下のオプションが含まれます。  
+    >Whole : 全音符  
+    Half : 2分音符  
+    Quarter : 4分音符  
+    Eighth : 8分音符  
+    Sixteenth : 16分音符  
+
+<br>
+
 ## 更新履歴
 ### Return2OriginalPosition.lua
 2020/8/23 v1.2公開 名称の変更, 他言語対応  
@@ -57,11 +87,21 @@
 
 ### ChangeLyrics_default2pitch.lua
 2020/8/19 v1.0公開  
+
+### Change2\_\_\_.lua
+2020/9/13 v1.0公開  
+
+### \_\_\_NotesLonger.lua
+2020/9/13 v1.0公開  
+
+### \_\_\_NotesShorter.lua
+2020/9/13 v1.0公開  
 <br>
 
 ## 連絡先
 ゆきかざり   
-Twitter:[@hanayuki7793](https://twitter.com/hanayuki7793)  
+Twitter : [@hanayuki7793](https://twitter.com/hanayuki7793)  
+mail : `yukikazari7793☆gmail.com` (☆→@)  
 <br>
 
 
