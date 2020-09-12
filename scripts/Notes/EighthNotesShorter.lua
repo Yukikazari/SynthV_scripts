@@ -1,7 +1,7 @@
 QUARTER = 705600000
 isDuration = QUARTER / 2
 
--- motiontypeは両方同じ数値にした方が使いやすいと思います
+-- motiontype[1]と[2]は両方同じ数値にした方が使いやすいと思います
 motiontype = {}
 --[[
 motiontype[1] 0 : 複数ノート選択時に位置を保持する

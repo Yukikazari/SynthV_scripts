@@ -7,7 +7,7 @@ motiontype = {}
 motiontype[1] 0 : 複数ノート選択時に位置を保持する
 motiontype[1] 1 : 複数ノート選択時に生じた間隔を埋める
 
-LengthenSixteenthNotes.luaと逆にするのがおすすめです
+__Longer.luaと逆にするのがおすすめです
 ]]
 motiontype[1] = 1
 
@@ -15,7 +15,7 @@ motiontype[1] = 1
 motiontype[2] 0 : 何もしない
 motiontype[2] 1 : 同じフレーズに含まれるノートの位置を調整する
 
-LengthenSixteenthNotes.luaと同じにするのがおすすめです
+__Longer.luaと同じにするのがおすすめです
 ]]
 motiontype[2] = 1
 
