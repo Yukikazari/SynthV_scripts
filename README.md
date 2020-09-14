@@ -9,13 +9,13 @@
 
 ## ダウンロード
 
-### [**一括ダウンロード**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9.2/Yukikazari.zip)  
+### [**一括ダウンロード**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9.3/Yukikazari.zip)  
 >現状動作が確認できているスクリプトファイルの一括ダウンロード  
 おすすめです
 
-- [**Return2OriginalPosition.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/Return2OriginalPosition.lua)  
+- [**Return2OriginalPosition.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9.3/Return2OriginalPosition.lua)  
 
-- [**Return2OriginalPosition_Res.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9.2/Return2OriginalPosition_Res.lua)  
+- [**Return2OriginalPosition_Res.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9.3/Return2OriginalPosition_Res.lua)  
 
 - [**ChangeLyrics_default2pitch.lua**](https://github.com/Yukikazari/SynthV_scripts/releases/download/20%2F9/ChangeLyrics_default2pitch.lua)  
 
