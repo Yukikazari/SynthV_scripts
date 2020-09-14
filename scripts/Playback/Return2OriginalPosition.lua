@@ -1,7 +1,7 @@
 function getClientInfo()
     return {
       name = SV:T("Return to Original Position"),
-      category = "Play",
+      category = "Playback",
       author = "Yukikazari",
       versionNumber = 1.2,
       minEditorVersion = 2^16 + 8

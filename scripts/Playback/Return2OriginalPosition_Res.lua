@@ -9,7 +9,7 @@ settings = {
 function getClientInfo()
     return {
       name = SV:T("[Resident] Return to Original Position"),
-      category = "Play",
+      category = "Playback",
       author = "Yukikazari",
       versionNumber = 1,
       minEditorVersion = 2 ^ 16 + 8
