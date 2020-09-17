@@ -51,7 +51,7 @@
 	// create
 	"SV:create(\"Note\") → {object}":{
 		"prefix":[
-			"SV:createNote",
+			"createNT",
 			"NT:create"
 		],
 		"body":[
@@ -66,7 +66,7 @@
 	},
 	"SV:create(\"Automation\") → {object}":{
 		"prefix":[
-			"SV:createAutomation",
+			"createAM",
 			"AM:create"
 		],
 		"body":[
@@ -81,7 +81,7 @@
 	},
 	"SV:create(\"NoteGroup\") → {object}":{
 		"prefix":[
-			"SV:createNoteGroup",
+			"createNG",
 			"NG:create"
 		],
 		"body":[
@@ -96,7 +96,7 @@
 	},
 	"SV:create(\"NoteGroupReference\") → {object}":{
 		"prefix":[
-			"SV:createNoteGroupReference",
+			"createNGR",
 			"GR:create"
 		],
 		"body":[
@@ -111,7 +111,7 @@
 	},
 	"SV:create(\"TrackMixer\") → {object}":{
 		"prefix":[
-			"SV:createTrackMixer",
+			"createTM",
 			"MX:create"
 		],
 		"body":[
@@ -126,7 +126,7 @@
 	},
 	"SV:create(\"Track\") → {object}":{
 		"prefix":[
-			"SV:createTrack",
+			"createTK",
 			"TK:create"
 		],
 		"body":[
@@ -141,7 +141,7 @@
 	},
 	"SV:create(\"TimeAxis\") → {object}":{
 		"prefix":[
-			"SV:createTimeAxis",
+			"createTA",
 			"TA:create"
 		],
 		"body":[
@@ -156,7 +156,7 @@
 	},
 	"SV:create(\"Project\") → {object}":{
 		"prefix":[
-			"SV:createProject",
+			"createPJ",
 			"PJ:create"
 		],
 		"body":[
@@ -173,7 +173,7 @@
 	// get object
 	"SV:getArrangement() → {ArrangementView}":{
 		"prefix":[
-			"SV:getArrangement",
+			"getAV",
 			"AV:get"
 		],
 		"body":[
@@ -187,7 +187,7 @@
 	},
 	"SV:getMainEditor() → {MainEditorView}":{
 		"prefix":[
-			"SV:getMainEditor",
+			"getME",
 			"MV:get"
 		],
 		"body":[
@@ -201,7 +201,7 @@
 	},
 	"SV:getPlayback() → {PlayBackControl}":{
 		"prefix":[
-			"SV:getPlayback",
+			"getPB",
 			"PB:get"
 		],
 		"body":[
@@ -215,7 +215,7 @@
 	},
 	"SV:getProject() → {Project}":{
 		"prefix":[
-			"SV:getProject",
+			"getPJ",
 			"PJ:get"
 		],
 		"body":[
@@ -229,7 +229,7 @@
 	},
 	"SV:getArrangement():getSelection()":{
 		"prefix":[
-			"SV:getArrangementSelectionState",
+			"getASS",
 			"AS:get"
 		],
 		"body":[
@@ -243,7 +243,7 @@
 	},
 	"SV:getTimeAxis() → {TimeAxis}":{
 		"prefix":[
-			"SV:getTimeAxis",
+			"getTA",
 			"TA:get"
 		],
 		"body":[
@@ -255,19 +255,7 @@
 			""
 		]
 	},
-	"PJ:getTimeAxis() → {TimeAxis}":{
-		"prefix":[
-			"PJ:getTimeAxis"
-		],
-		"body":[
-			":getTimeAxis()"
-		],
-		"description":[
-			"このProjectのTimeAxisオブジェクトを取得します。",
-			"@return {TimeAxis}",
-			""
-		]
-	},
+
 
 
 
@@ -275,7 +263,7 @@
 
 	// SV
 	"SV.QUARTER":{
-		"prefix":"SV.QUARTER",
+		"prefix":"QUARTER",
 		"body":[
 			"SV.QUARTER"
 		],
@@ -350,7 +338,7 @@
 		]
 	},
 	"SV:finish()":{
-		"prefix":"SV:finish",
+		"prefix":"fin",
 		"body":[
 			"SV:finish()"
 		],
@@ -374,7 +362,7 @@
 		]
 	},
 	"SV:getHostClipboard() → {string}":{
-		"prefix":"SV:getHostClipboard",
+		"prefix":"getClipboard",
 		"body":[
 			"SV:getHostClipboard()"
 		],
@@ -454,7 +442,7 @@
 		]
 	},
 	"SV:setHostClipboard(text)":{
-		"prefix":"SV:setHostClipboard",
+		"prefix":"setClipboard",
 		"body":[
 			"SV:setHostClipboard(${1:text})"
 		],
@@ -465,7 +453,7 @@
 		]
 	},
 	"SV:setTimeout(timeOut, callback)":{
-		"prefix":"SV:setTimeout",
+		"prefix":"Timeout",
 		"body":[
 			"SV:setTimeout(${1:timeOut}, ${2:callback})"
 		],
@@ -477,7 +465,7 @@
 		]
 	},
 	"SV:showCustomDialog(form) → {object}":{
-		"prefix":"SV:showCustomDialog",
+		"prefix":"CustomDialog",
 		"body":[
 			"SV:showCustomDialog(${1:form})"
 		],
@@ -490,7 +478,7 @@
 		]
 	},
 	"SV:showCustomDialogAsync(form, callback)":{
-		"prefix":"SV:showCustomDialogAsync",
+		"prefix":"AsyncCustomDialog",
 		"body":[
 			"SV:showCustomDialogAsync(${1:form}, ${2:callback})"
 		],
@@ -505,7 +493,7 @@
 		]
 	},
 	"SV:showInputBox(title, message, defaultText) → {string}":{
-		"prefix":"SV:showInputBox",
+		"prefix":"InputBox",
 		"body":[
 			"SV:showInputBox(${1:title}, ${2:message}, ${3:defaultText})"
 		],
@@ -521,7 +509,7 @@
 		]
 	},
 	"SV:showInputBoxAsync(title, message, defaultText, callback)":{
-		"prefix":"SV:showInputBoxAsync",
+		"prefix":"AsyncInputBox",
 		"body":[
 			"SV:showInputBoxAsync(${1:title}, ${2:message}, ${3:defaultText}, ${4:callback})"
 		],
@@ -538,7 +526,7 @@
 		]
 	},
 	"SV:showMessageBox(title, message)":{
-		"prefix":"SV:showMessageBox",
+		"prefix":"MessageBox",
 		"body":[
 			"SV:showMessageBox(${1:title}, ${2:message})"
 		],
@@ -551,7 +539,7 @@
 		]
 	},
 	"SV:showMessageBoxAsync(title, message, callback)":{
-		"prefix":"SV:showMessageBoxAsync",
+		"prefix":"AsyncMessageBox",
 		"body":[
 			"SV:showMessageBoxAsync(${1:title}, ${2:message}, ${3:callback})"
 		],
@@ -566,7 +554,7 @@
 		]
 	},
 	"SV:showOkCancelBox(title, message) → {boolean}":{
-		"prefix":"SV:showOkCancelBox",
+		"prefix":"OkCancelBox",
 		"body":[
 			"SV:showOkCancelBox(${1:title}, ${2:message})"
 		],
@@ -581,7 +569,7 @@
 		]
 	},
 	"SV:showOkCancelBoxAsync(title, message, callback)":{
-		"prefix":"SV:showOkCancelBoxAsync",
+		"prefix":"AsyncOkCancelBox",
 		"body":[
 			"SV:showOkCancelBoxAsync(${1:title}, ${2:message}, ${3:callback})"
 		],
@@ -597,7 +585,7 @@
 		]
 	},
 	"SV:showYesNoCancelBox(title, message) → {string}":{
-		"prefix":"SV:showYesNoCancelBox",
+		"prefix":"YesNoCancelBox",
 		"body":[
 			"SV:showYesNoCancelBox(${1:title}, ${2:message})"
 		],
@@ -612,7 +600,7 @@
 		]
 	},
 	"SV:showYesNoCancelBoxAsync(title, message, callback)":{
-		"prefix":"SV:showYesNoCancelBoxAsync",
+		"prefix":"AsyncYesNoCancelBox",
 		"body":[
 			"SV:showYesNoCancelBoxAsync(${1:title}, ${2:message}, ${3:callback})"
 		],
