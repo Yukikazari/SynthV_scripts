@@ -110,7 +110,10 @@
 		]
 	},
 	"SV:create(\"TrackMixer\") → {object}":{
-		"prefix":"SV:createTrackMixer",
+		"prefix":[
+			"SV:createTrackMixer",
+			"MX:create"
+		],
 		"body":[
 			"SV:create(\"TrackMixer\")"
 		],
@@ -122,7 +125,10 @@
 		]
 	},
 	"SV:create(\"Track\") → {object}":{
-		"prefix":"SV:createTrack",
+		"prefix":[
+			"SV:createTrack",
+			"TK:create"
+		],
 		"body":[
 			"SV:create(\"Track\")"
 		],
@@ -149,7 +155,10 @@
 		]
 	},
 	"SV:create(\"Project\") → {object}":{
-		"prefix":"SV:createProject",
+		"prefix":[
+			"SV:createProject",
+			"PJ:create"
+		],
 		"body":[
 			"SV:create(\"Project\")"
 		],
