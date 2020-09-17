@@ -1,0 +1,2514 @@
+{
+	// snipet v1.0
+	// Synthesizer V script
+	// Copyright 2020 Yukikazari
+	// Apache2.0 License 
+	// http://www.apache.org/licenses/LICENSE-2.0
+
+	// 短縮形はデフォルトでは以下のようになっています
+	// 基本的に全て関数名や説明とは干渉しないようにしてあるので使いにくい部分は全置換で変更してください
+	// なお、関数名と同じ文字列が含まれる(MainEditor => MEなど ex.Name)名前は管理が面倒になるので推奨しません
+
+	// SV as SV
+	// ArrangementSelectionState as AS
+	// ArrangementView as AV
+	// Automation as AM
+	// CoordinateSystem as CS
+	// MainEditorView as MV
+	// Note as NT
+	// NoteGroup as NG
+	// NoteGroupReference as GR
+	// PlaybackControl as PB
+	// Project as PJ
+	// TimeAxis as TA
+	// TrackInnerSelectionState as TS
+
+	// 必要のないものはコメントアウトか削除により対応してください
+	//コメントアウトは
+	/*"SV:create(\"Note\") → {object}":{
+		"prefix":[
+			"SV:createNote",
+			"NT:create"
+		],
+		"body":[
+			"SV:create(\"Note\")"
+		],
+		"description":[
+			"新しくNoteオブジェクトを作成します。",
+			"\"Note\" ピッチ、歌詞、開始位置、長さなどで特徴づけられた音符。",
+			"@return {object}",
+			""
+		]
+	},
+	*/
+	// のような形で行うことができます
+
+	// 豆知識 基本的に1プロジェクトに1つしか実装されていないものは
+	// 〇〇(オブジェクト名の省略形):getで取れるようにしてあります
+	// SV:createに関しても同様に
+	// 〇〇(オブジェクト名の省略形):createで作れます。活用してください
+ 
+	// create
+	"SV:create(\"Note\") → {object}":{
+		"prefix":[
+			"SV:createNote",
+			"NT:create"
+		],
+		"body":[
+			"SV:create(\"Note\")"
+		],
+		"description":[
+			"新しくNoteオブジェクトを作成します。",
+			"\"Note\" ピッチ、歌詞、開始位置、長さなどで特徴づけられた音符。",
+			"@return {object}",
+			""
+		]
+	},
+	"SV:create(\"Automation\") → {object}":{
+		"prefix":[
+			"SV:createAutomation",
+			"AM:create"
+		],
+		"body":[
+			"SV:create(\"Automation\")"
+		],
+		"description":[
+			"新しくAutomationオブジェクトを作成します。",
+			"\"Automation\" NoteGroup内の特定のパラメータタイプ（ピッチベンドなど）を制御する点の集合。",
+			"@return {object}",
+			""
+		]
+	},
+	"SV:create(\"NoteGroup\") → {object}":{
+		"prefix":[
+			"SV:createNoteGroup",
+			"NG:create"
+		],
+		"body":[
+			"SV:create(\"NoteGroup\")"
+		],
+		"description":[
+			"新しくNoteGroupオブジェクトを作成します。",
+			"\"NoteGroup\" 再利用のためにグループ化されたノートやパラメータ。",
+			"@return {object}",
+			""
+		]
+	},
+	"SV:create(\"NoteGroupReference\") → {object}":{
+		"prefix":[
+			"SV:createNoteGroupReference",
+			"GR:create"
+		],
+		"body":[
+			"SV:create(\"NoteGroupReference\")"
+		],
+		"description":[
+			"新しくNoteGroupReferenceオブジェクトを作成します。",
+			"\"NoteGroupReference\" 時間とピッチオフセット、および歌声/データベースプロパティを持つ場合もあるNoteGroupへの参照。",
+			"@return {object}",
+			""
+		]
+	},
+	"SV:create(\"TrackMixer\") → {object}":{
+		"prefix":[
+			"SV:createTrackMixer",
+			"MX:create"
+		],
+		"body":[
+			"SV:create(\"TrackMixer\")"
+		],
+		"description":[
+			"新しくTrackMixerオブジェクトを作成します。",
+			"\"TrackMixer\" トラックのミキサーの状態（ゲイン、パン、ミュート、ソロなど）を属性の集合。",
+			"@return {object}",
+			""
+		]
+	},
+	"SV:create(\"Track\") → {object}":{
+		"prefix":[
+			"SV:createTrack",
+			"TK:create"
+		],
+		"body":[
+			"SV:create(\"Track\")"
+		],
+		"description":[
+			"新しくTrackオブジェクトを作成します。",
+			"\"Track\" NoteGroupReferenceの集まり。",
+			"@return {object}",
+			""
+		]
+	},
+	"SV:create(\"TimeAxis\") → {object}":{
+		"prefix":[
+			"SV:createTimeAxis",
+			"TA:create"
+		],
+		"body":[
+			"SV:create(\"TimeAxis\")"
+		],
+		"description":[
+			"新しくTimeAxisオブジェクトを作成します。",
+			"\"TimeAxis\" テンポと拍子記号を格納するプロジェクト全体規模のオブジェクト。物理的時間と音楽的時間の変換を行います。",
+			"@return {object}",
+			""
+		]
+	},
+	"SV:create(\"Project\") → {object}":{
+		"prefix":[
+			"SV:createProject",
+			"PJ:create"
+		],
+		"body":[
+			"SV:create(\"Project\")"
+		],
+		"description":[
+			"新しくProjectオブジェクトを作成します。",
+			"\"Project\" 作業の対象となる最大のオブジェクト。Track、TimeAxis、NoteGroupなどが入っています。",
+			"@return {object}",
+			""
+		]
+	},
+
+	// get object
+	"SV:getArrangement() → {ArrangementView}":{
+		"prefix":[
+			"SV:getArrangement",
+			"AV:get"
+		],
+		"body":[
+			"SV:getArrangement()"
+		],
+		"description":[
+			"トラックエリアのUI状態オブジェクトを取得します。",
+			"@return {ArrangementView}",
+			""
+		]
+	},
+	"SV:getMainEditor() → {MainEditorView}":{
+		"prefix":[
+			"SV:getMainEditor",
+			"MV:get"
+		],
+		"body":[
+			"SV:getMainEditor()"
+		],
+		"description":[
+			"ピアノロールのUI状態オブジェクトを取得します。",
+			"@return {MainEditorView}",
+			""
+		]
+	},
+	"SV:getPlayback() → {PlayBackControl}":{
+		"prefix":[
+			"SV:getPlayback",
+			"PB:get"
+		],
+		"body":[
+			"SV:getPlayback()"
+		],
+		"description":[
+			"プレイバックを制御するためのUI状態オブジェクトを取得します。",
+			"@return {PlayBackControl}",
+			""
+		]
+	},
+	"SV:getProject() → {Project}":{
+		"prefix":[
+			"SV:getProject",
+			"PJ:get"
+		],
+		"body":[
+			"SV:getProject()"
+		],
+		"description":[
+			"現在開いているプロジェクトを取得します。",
+			"@return {Project}",
+			""
+		]
+	},
+	"SV:getArrangement():getSelection()":{
+		"prefix":[
+			"SV:getArrangementSelectionState",
+			"AS:get"
+		],
+		"body":[
+			"SV:getArrangement():getSelection()"
+		],
+		"description":[
+			"トラックエリアの選択状態オブジェクトを取得します。",
+			"@return {ArrangementSelectionState}",
+			""
+		]
+	},
+	"SV:getTimeAxis() → {TimeAxis}":{
+		"prefix":[
+			"SV:getTimeAxis",
+			"TA:get"
+		],
+		"body":[
+			"SV:getProject():getTimeAxis()"
+		],
+		"description":[
+			"このProjectのTimeAxisオブジェクトを取得します。",
+			"@return {TimeAxis}",
+			""
+		]
+	},
+	"PJ:getTimeAxis() → {TimeAxis}":{
+		"prefix":[
+			"PJ:getTimeAxis"
+		],
+		"body":[
+			":getTimeAxis()"
+		],
+		"description":[
+			"このProjectのTimeAxisオブジェクトを取得します。",
+			"@return {TimeAxis}",
+			""
+		]
+	},
+
+
+
+
+
+	// SV
+	"SV.QUARTER":{
+		"prefix":"SV.QUARTER",
+		"body":[
+			"SV.QUARTER"
+		],
+		"description":[
+			"4分音符のブリック数（705600000）",
+			""
+		]
+	},
+	"SV:blackKey(k) → {boolean}":{
+		"prefix":"SV:blackKey",
+		"body":[
+			"SV:blackKey(${1:k})"
+		],
+		"description":[
+			"鍵盤（MIDIノート番号）がピアノの黒鍵かどうかを確認します。",
+			"@param {number} k",
+			"@return {boolean}",
+			""
+		]
+	},
+	"SV:blick2Quarter(b) → {number}":{
+		"prefix":"SV:blick2Quarter",
+		"body":[
+			"SV:blick2Quarter(${1:b})"
+		],
+		"description":[
+			"ブリックの数bを4分音符の数に変換します。",
+			"b / SV.QUARTER に相当します。",
+			"@param {number} b",
+			"@return {number}",
+			""
+		]
+	},
+	"SV:blick2Seconds(b, bpm) → {number}":{
+		"prefix":"SV:blick2Seconds",
+		"body":[
+			"SV:blick2Seconds(${1:b}, ${2:bpm})"
+		],
+		"description":[
+			"指定されたbpmを使い、ブリックの数bを秒に変換します。",
+			"b / SV.QUARTER * 60 / bpm に相当します。",
+			"@param {number} b",
+			"@param {number} bpm",
+			"@return {number}",
+			""]
+	},
+	"SV:blickRoundDiv(dividend, divisor) → {number}":{
+		"prefix":"SV:blickRoundDiv",
+		"body":[
+			"SV:blickRoundDiv(${1:dividend}, ${2:divisor})"
+		],
+		"description":[
+			"dividend（ブリック）割るdivisor（ブリックを丸めたもの。",
+			"@param {number} dividend",
+			"@param {number} divisor",
+			"@return {number}",
+			""
+		]
+	},
+	"SV:blickRoundTo(b, interval) → {number}":{
+		"prefix":"SV:blickRoundTo",
+		"body":[
+			"SV:blickRoundTo(${1:b}, ${2:interval})"
+		],
+		"description":[
+			"b（ブリック）に最も近いinterval（ブリック）の倍数を返します。",
+			"blickRoundDiv(b, interval) * interval に相当します。",
+			"@param {number} b",
+			"@param {number} interval",
+			"@return {number}",
+			""
+		]
+	},
+	"SV:finish()":{
+		"prefix":"SV:finish",
+		"body":[
+			"SV:finish()"
+		],
+		"description":[
+			"スクリプトの終了を示します。",
+			"以降のすべての非同期コールバックは実行されません。",
+			"これにより、現在のスクリプトが直ちに終了するわけではないことにご注意ください。",
+			""
+		]
+	},
+	"SV:freq2Pitch(f) → {number}":{
+		"prefix":"SV:freq2Pitch",
+		"body":[
+			"SV:freq2Pitch(${1:f})"
+		],
+		"description":[
+			"周波数（単位：Hz）をMIDIノート番号（単位：半音、C4は60）に変換します。",
+			"@param {number} f",
+			"@return {number}",
+			""
+		]
+	},
+	"SV:getHostClipboard() → {string}":{
+		"prefix":"SV:getHostClipboard",
+		"body":[
+			"SV:getHostClipboard()"
+		],
+		"description":[
+			"システムクリップボードのテキストを取得します。",
+			"@return {string}",
+			""
+		]
+	},
+	"SV:getHostInfo() → {object}":{
+		"prefix":"SV:getHostInfo",
+		"body":[
+			"SV:getHostInfo()"
+		],
+		"description":[
+			"以下のプロパティを持つオブジェクトを取得します。",
+			"・osType: string \"Windows\", \"macOS\", \"Linux\", \"Unknown\" のいずれか\n",
+			"・osName: string オペレーティングシステムの完全な名前\n",
+			"・hostName: string \"Synthesizer V Studio Pro\" あるいは \"Synthesizer V Studio Basic\"\n",
+			"・hostVersion: string Synthesizer V Studio のバージョン文字列。例： \"1.0.4\"\n",
+			"・hostVersionNumber: number メジャー番号、マイナー番号、リビジョン番号をそれぞれ2桁の16進数で表したバージョン番号。例： \"1.0.4\" の場合は 0x010004\n",
+			"・languageCode: string UIの言語コード。例： \"en-us\"、\"ja-jp\"、\"zh-cn\" など。\n",
+			"@return {object}",
+			""
+		]
+	},
+	"SV:getPhonemesForGroup(group) → {array}":{
+		"prefix":"SV:getPhonemesForGroup",
+		"body":[
+			"getPhonemesForGroup(${1:group})"
+		],
+		"description":[
+			"グループ（グループ参照として渡されます）内のすべてのノートの音素を取得します。",
+			"そのグループは、現在オープンしているプロジェクトの一部である必要があります。",
+			"@param {NoteGroupReference}",
+			"@return {array.<string>}",
+			""
+		]
+	},
+	"SV:pitch2freq(p) → {number}":{
+		"prefix":"SV:pitch2freq",
+		"body":[
+			"SV:pitch2freq(${1:p})"
+		],
+		"description":[
+			"MIDIノート番号（単位：半音、C4は60）を周波数（単位：Hz）に変換します。",
+			"@param {number} p",
+			"@return {number}",
+			""
+		]
+	},
+	"SV:quarter2Blick(q) → {number}":{
+		"prefix":"SV:quarter2Blick",
+		"body":[
+			"SV:quarter2Blick(${1:q})"
+		],
+		"description":[
+			"4分音符の数qをブリックの数に変換します。",
+			"q * SV.QUARTER に相当します。",
+			"@param {number}",
+			"@return {number}",
+			""
+		]
+	},
+	"SV:seconds2Blick(s, bpm) → {number}":{
+		"prefix":"SV:seconds2Blick",
+		"body":[
+			"SV:seconds2Blick(${1:s}, ${2:bpm})"
+		],
+		"description":[
+			"指定されたbpmを使い、秒sをブリックの数に変換します。",
+			"s / 60 * bpm * SV.QUARTER に相当します。",
+			"@param {number} s",
+			"@param {number} bpm",
+			"@return {number}",
+			""
+		]
+	},
+	"SV:setHostClipboard(text)":{
+		"prefix":"SV:setHostClipboard",
+		"body":[
+			"SV:setHostClipboard(${1:text})"
+		],
+		"description":[
+			"システムクリップボードにテキストを置きます。",
+			"@param {string} text",
+			""
+		]
+	},
+	"SV:setTimeout(timeOut, callback)":{
+		"prefix":"SV:setTimeout",
+		"body":[
+			"SV:setTimeout(${1:timeOut}, ${2:callback})"
+		],
+		"description":[
+			"timeOutミリ秒後のcallback遅延呼び出しをスケジュールする。",
+			"@param {number} timeOut",
+			"@param {function} callback",
+			""
+		]
+	},
+	"SV:showCustomDialog(form) → {object}":{
+		"prefix":"SV:showCustomDialog",
+		"body":[
+			"SV:showCustomDialog(${1:form})"
+		],
+		"description":[
+			"ユーザーからの入力（入力済みのフォーム）を返します。",
+			"SV:showCustomDialogAsyncの同期バージョン。",
+			"@param {object} form",
+			"@return {object}",
+			""
+		]
+	},
+	"SV:showCustomDialogAsync(form, callback)":{
+		"prefix":"SV:showCustomDialogAsync",
+		"body":[
+			"SV:showCustomDialogAsync(${1:form}, ${2:callback})"
+		],
+		"description":[
+			"formで定義されたカスタムダイアログを、スクリプトの実行をブロックせずに表示します。",
+			"コールバックcallbackはダイアログが閉じられると呼び出されます。",
+			"コールバック関数はカスタムダイアログの入力状態を取ります。",
+			"@param {object} form",
+			"@param {function} callback",
+			"@return {object}",
+			""
+		]
+	},
+	"SV:showInputBox(title, message, defaultText) → {string}":{
+		"prefix":"SV:showInputBox",
+		"body":[
+			"SV:showInputBox(${1:title}, ${2:message}, ${3:defaultText})"
+		],
+		"description":[
+			"テキストボックスと「OK」ボタンのあるダイアログを表示します。",
+			"ユーザーが入力したテキストを返します。",
+			"SV:showInputBoxAsyncの同期バージョン。",
+			"@param {string} title",
+			"@param {string} message",
+			"@param {string} defaultText",
+			"@return {string}",
+			""
+		]
+	},
+	"SV:showInputBoxAsync(title, message, defaultText, callback)":{
+		"prefix":"SV:showInputBoxAsync",
+		"body":[
+			"SV:showInputBoxAsync(${1:title}, ${2:message}, ${3:defaultText}, ${4:callback})"
+		],
+		"description":[
+			"スクリプトの実行をブロックせずに、テキストボックスと「OK」ボタンのあるダイアログを表示します。",
+			"コールバックcallbackはダイアログが閉じられると呼び出されます。",
+			"コールバック関数は、テキストボックスの内容であるstring型引数をひとつ受け取ります。",
+			"@param {string} title",
+			"@param {string} message",
+			"@param {string} defaultText",
+			"@param {function} callback",
+			"@return {string}",
+			""
+		]
+	},
+	"SV:showMessageBox(title, message)":{
+		"prefix":"SV:showMessageBox",
+		"body":[
+			"SV:showMessageBox(${1:title}, ${2:message})"
+		],
+		"description":[
+			"メッセージボックスをポップアップさせます。",
+			"SV:showMessageBoxAsyncの同期バージョン。",
+			"@param {string} title",
+			"@param {string} message",
+			""
+		]
+	},
+	"SV:showMessageBoxAsync(title, message, callback)":{
+		"prefix":"SV:showMessageBoxAsync",
+		"body":[
+			"SV:showMessageBoxAsync(${1:title}, ${2:message}, ${3:callback})"
+		],
+		"description":[
+			"メッセージボックスをポップアップさせます。",
+			"コールバックcallbackが与えられた場合、メッセージボックスが閉じられた時点で呼び出されます。",
+			"コールバック関数は引数をとりません。",
+			"@param {string} title",
+			"@param {string} message",
+			"@param {function} callback (optional)",
+			""
+		]
+	},
+	"SV:showOkCancelBox(title, message) → {boolean}":{
+		"prefix":"SV:showOkCancelBox",
+		"body":[
+			"SV:showOkCancelBox(${1:title}, ${2:message})"
+		],
+		"description":[
+			"「確定」ボタンと「キャンセル」ボタン付きのメッセージボックスを表示します。",
+			"「確定」ボタンが押された場合、真を返します。",
+			"SV:showOkCancelBoxAsyncの同期バージョン。",
+			"@param {string} title",
+			"@param {string} message",
+			"@return {boolean}",
+			""
+		]
+	},
+	"SV:showOkCancelBoxAsync(title, message, callback)":{
+		"prefix":"SV:showOkCancelBoxAsync",
+		"body":[
+			"SV:showOkCancelBoxAsync(${1:title}, ${2:message}, ${3:callback})"
+		],
+		"description":[
+			"スクリプトの実行をブロックせずに、「確定」ボタンと「キャンセル」ボタン付きのメッセージボックスを表示します。",
+			"メッセージボックスが閉じられるとcallbackが呼び出されます。",
+			"コールバック関数は「確定」ボタンが押された場合に真となるboolean型引数をひとつ取ります。",
+			"@param {string} title",
+			"@param {string} message",
+			"@param {function} callback",
+			"@return {boolean}",
+			""
+		]
+	},
+	"SV:showYesNoCancelBox(title, message) → {string}":{
+		"prefix":"SV:showYesNoCancelBox",
+		"body":[
+			"SV:showYesNoCancelBox(${1:title}, ${2:message})"
+		],
+		"description":[
+			"「はい」ボタン、「いいえ」ボタン、「キャンセル」ボタンを備えたメッセージボックスを表示します。",
+			"\"yes\"、\"no\"、\"cancel\"のいずれかを返します。",
+			"SV:showYesNoCancelBoxAsyncの同期バージョン。",
+			"@param {string} title",
+			"@param {string} message",
+			"@return {string}",
+			""
+		]
+	},
+	"SV:showYesNoCancelBoxAsync(title, message, callback)":{
+		"prefix":"SV:showYesNoCancelBoxAsync",
+		"body":[
+			"SV:showYesNoCancelBoxAsync(${1:title}, ${2:message}, ${3:callback})"
+		],
+		"description":[
+			"スクリプトの実行を妨げることなく、「はい」ボタン、「いいえ」ボタン、「キャンセル」ボタンを備えたメッセージボックスを表示します。",
+			"メッセージボックスが閉じられるとcallbackが呼び出されます。",
+			"コールバック関数は\"yes\"、\"no\"、\"cancel\"のいずれかとなるstring型引数をひとつ受け取ります。",
+			"@param {string} title",
+			"@param {string} message",
+			"@param {function} callback",
+			"@return {string}",
+			""
+		]
+	},
+	"SV:T(text) → {string}":{
+		"prefix":"SV:T",
+		"body":[
+			"SV:T(${1:text})"
+		],
+		"description":[
+			"現在のUI言語設定に基づいてローカライズされたtextを取得します。",
+			"@param {string} text",
+			"@return {string}",
+			""
+		]
+	},
+
+
+	// ArrangementSelectionState as AS
+	// inner GroupSelection and SelectionStateBase
+
+	// ArrangementView as AV
+	// SV:getArrangement or AV:get
+	"AV:getSelection() → {ArrangementSelectionState}":{
+		"prefix":"AV:getSelection",
+		"body":[
+			":getSelection()"
+		],
+		"description":[
+			"トラックエリアの選択状態オブジェクトを取得します。",
+			"@return {ArrangementSelectionState}",
+			""
+		]
+	},
+	"AV:getNavigation() → {CoordinateSystem}":{
+		"prefix":"AV:getNavigation",
+		"body":[
+			":getNavigation()"
+		],
+		"description":[
+			"トラックエリアの座標系を取得します。",
+			"@return {CoordinateSystem}",
+			""
+		]
+	},
+
+	// Automation as AM
+	// AM:create or SV:create("Automation")
+	"AM:add(b, v) → {boolean}":{
+		"prefix":"AM:add",
+		"body":[
+			":add(${1:b}, ${2:v})"
+		],
+		"description":[
+			"位置b（ブリック）とパラメータ値vの制御点を追加します。",
+			"b上にすでに制御点がある場合、パラメータ値をvに更新します。",
+			"新しく制御点が作成された場合は真を返します。",
+			"@param {number} b",
+			"@param {number} v",
+			"@return {boolean}",
+			""
+		]
+	},
+	"AM:clone() → {Automation}":{
+		"prefix":"AM:clone",
+		"body":[
+			":clone()"
+		],
+		"description":[
+			"現在のオブジェクトの深いコピー。",
+			"@return {Automation}",
+			""
+		]
+	},
+	"AM:get(b) → {number}":{
+		"prefix":"AM:get",
+		"body":[
+			":get(${1:b})"
+		],
+		"description":[
+			"位置b（ブリック）での補間されたパラメータ値を取得します。",
+			"もちろんbに制御点が存在する場合、補間方法にかかわらず、その点のパラメータ値を返します。",
+			"@param {number} b",
+			"@return {number}",
+			""
+		]
+	},
+	"AM:getAllPoints() → {array}":{
+		"prefix":"AM:getAllPoints",
+		"body":[
+			":getAllPoints()"
+		],
+		"description":[
+			"Automation:getPointsの範囲無制限バージョン。",
+			"@return {array.<array.<number>>}",
+			""
+		]
+	},
+	"AM:getDefinition() → {object}":{
+		"prefix":"AM:getDefinition",
+		"body":[
+			":getDefinition()"
+		],
+		"description":[
+			"以下のプロパティを持つオブジェクトを取得します。",
+			"・displayName: string",
+			"・typeName: string",
+			"・range: 長さ2の要素がnumberのarray",
+			"・defaultValue: number",
+			"詳しい内容はサイトを参照してください。",
+			"@return {object}",
+			""
+		]
+	},
+	"AM:getInterpolationMethod() → {string}":{
+		"prefix":"AM:getInterpolationMethod",
+		"body":[
+			":getInterpolationMethod()"
+		],
+		"description":[
+			"制御点間の値の補間方法を返します。",
+			"・\"Linear\" - 線形補間",
+			"・\"Cosine\" - コサイン補間",
+			"・\"Cubic\" - 修正Catmull-Romスプライン曲線補間",
+			"@return {string}",
+			""
+		]
+	},
+	"AM:getLinear(b) → {number}":{
+		"prefix":"AM:getLinear",
+		"body":[
+			":getLinear(${1:b})"
+		],
+		"description":[
+			"Automation:getの線形補間を使用したバージョン。",
+			"@param {number} b",
+			"@return {number}",
+			""
+		]
+	},
+	"AM:getPoints(begin, end) → {array}":{
+		"prefix":"AM:getPoints",
+		"body":[
+			":getPoints(${1:begin}, ${2:end})"
+		],
+		"description":[
+			"位置がbeginとend（ブリック）の間にある制御点の配列を取得します。",
+			"配列の各要素は、2つの要素、",
+			"・位置（ブリック）：number",
+			"・パラメータ値：number",
+			"からなる配列です。例：[[0, 0.1], [5000, 0], [10000, -0.1]]。\n",
+			"@param {number} begin",
+			"@param {number} end",
+			"@return {array.<array.<number>>}",
+			""
+		]
+	},
+	"AM:getType() → {string}":{
+		"prefix":"AM:getType",
+		"body":[
+			":getType()"
+		],
+		"description":[
+			"このAutomationのパラメータ型を取得します。",
+			"Automation#getDefinitionのテーブルのtypeName列を参照してください。",
+			"@return {string}",
+			""
+		]
+	},
+	"AM:remove(b) → {boolean}":{
+		"prefix":"AM:remove",
+		"body":[
+			":remove(${1:b})"
+		],
+		"description":[
+			"位置b（ブリック）に制御点がある場合、その制御点を削除します。",
+			"削除された制御点があれば真を返します。",
+			"@param {number} b",
+			"@return {boolean}",
+			""
+		]
+	},
+	"AM:remove(begin, end) → {boolean}":{
+		"prefix":"AM:remove",
+		"body":[
+			"AM:remove(${1:begin}, ${2:end})"
+		],
+		"description":[
+			"位置begin（ブリック）とend（ブリック）の間のすべての制御点を削除します。",
+			"削除された制御点があれば真を返します。",
+			"指定した範囲内に制御点がない場合は偽を返します。",
+			"@param {number} begin",
+			"@param {number} end",
+			"@return {boolean}",
+			""
+		]
+	},
+	"AM:removeAll()":{
+		"prefix":"AM:removeAll",
+		"body":[
+			"AM:removeAll()"
+		],
+		"description":[
+			"Automationの制御点をすべて削除します。",
+			""
+		]
+	},
+	"AM:simplify(begin, end, threshold) → {boolean}":{
+		"prefix":"AM:simplify",
+		"body":[
+			"AM:simplify(${1:begin}, ${2:end}, ${3:threshold})"
+		],
+		"description":[
+			"位置begin（ブリック）から位置end（ブリック）までのパラメータ曲線を、曲線の形状に大きく寄与しない制御点を削除することで簡素化します。",
+			"thresholdが指定されない場合は0.002が使われます。",
+			"thresholdの値を高くすると、より簡素化されます。",
+			"削除された制御点があれば真を返します。",
+			"@param {number} begin",
+			"@param {number} end",
+			"@param {number} threshold (optional)",
+			"@return {boolean}",
+			""
+		]
+	},
+
+	// CoordinateSystem as CS
+	// AV:getNavigation() or MV:getNavigation()
+	"CS:getTimePxPerUnit() → {number}":{
+		"prefix":"CS:getTimePxPerUnit",
+		"body":[
+			":getTimePxPerUnit()"
+		],
+		"description":[
+			"水平方向の拡大率を取得します。",
+			"単位は1ブリックあたりの画素数なので、非常に小さな数字になります。",
+			"@return {number}",
+			""
+		]
+	},
+	"CS:getTimeViewRange() → {array}":{
+		"prefix":"CS:getTimeViewRange",
+		"body":[
+			":getTimeViewRange()"
+		],
+		"description":[
+			"現在表示されている時間範囲を取得します。",
+			"開始時刻と終了時刻に対応する2つのnumber要素を持つ配列を返します。",
+			"時間の単位はブリックです。",
+			"@return {array.<number>}",
+			""
+		]
+	},
+	"CS:getValuePxPerUnit() → {number}":{
+		"prefix":"CS:getValuePxPerUnit",
+		"body":[
+			":getValuePxPerUnit()"
+		],
+		"description":[
+			"鉛直方向の拡大率を取得します。",
+			"ピアノロールの場合、単位は半音あたりの画素数です。",
+			"@return {number}",
+			""
+		]
+	},
+	"CS:getValueViewRange() → {array}":{
+		"prefix":"CS:getValueViewRange",
+		"body":[
+			":getValueViewRange()"
+		],
+		"description":[
+			"現在表示されている値の範囲を取得します。",
+			"下限と上限に対応する2つのnumber要素を持つ配列を返します。",
+			"ピアノロールの場合、単位はMIDIノート番号です。",
+			"@return {array.<number>}",
+			""
+		]
+	},
+	"CS:setTimeLeft(time)":{
+		"prefix":"CS:setTimeLeft",
+		"body":[
+			":setTimeLeft(${1:time})"
+		],
+		"description":[
+			"左端がtimeになるように表示範囲を移動します。",
+			"@param {number} time",
+			""
+		]
+	},
+	"CS:setTimeRight(time)":{
+		"prefix":"CS:setTimeRight",
+		"body":[
+			":setTimeRight(${1:time})"
+		],
+		"description":[
+			"右端がtimeになるように表示範囲を移動します。",
+			"@param {number} time",
+			""
+		]
+	},
+	"CS:setTimeScale(scale)":{
+		"prefix":"CS:setTimeScale",
+		"body":[
+			":setTimeScale()"
+		],
+		"description":[
+			"水平方向の拡大率をscaleに設定します。",
+			"単位は1ブリックあたりの画素数なので、非常に小さな数字になります。",
+			"@param {number} scale",
+			""
+		]
+	},
+	"CS:setValueCenter(v)":{
+		"prefix":"CS:setValueCenter",
+		"body":[
+			"CS:setValueCenter(${1:v})"
+		],
+		"description":[
+			"鉛直方向の中心がvになるように表示範囲を移動します。",
+			"@param {number} v",
+
+			""
+		]
+	},
+	"CS:snap(b) → {number}":{
+		"prefix":"CS:snap",
+		"body":[
+			":snap(${1:b})"
+		],
+		"description":[
+			"スナップ設定に基づいて時間位置bを丸めます。",
+			"@param {number} b",
+			"@return {number}",
+			""
+		]
+	},
+	"CS:t2x(t) → {number}":{
+		"prefix":"CS:t2x",
+		"body":[
+			":t2x(${1:t})"
+		],
+		"description":[
+			"時間位置をx位置（ピクセル）に変換します。",
+			"@param {number} t",
+			"@return {number}",
+			""
+		]
+	},
+	"CS:v2y(v) → {number}":{
+		"prefix":"CS:v2y",
+		"body":[
+			":v2y(${1:v})"
+		],
+		"description":[
+			"値をy位置（ピクセル）に変換します。",
+			"@param {number} v",
+			"@return {number}",
+			""
+		]
+	},
+	"CS:x2t(x) → {number}":{
+		"prefix":"CS:x2t",
+		"body":[
+			":x2t(${1:x})"
+		],
+		"description":[
+			"x位置（ピクセル）を時間位置に変換します。",
+			"@param {number} x",
+			"@return {number}",
+			""
+		]
+	},
+	"CS:y2v(y) → {number}":{
+		"prefix":"CS:y2v",
+		"body":[
+			":y2v(${1:y})"
+		],
+		"description":[
+			"y位置（ピクセル）を値に変換します。",
+			"@param {number} y",
+			"@return {number}",
+			""
+		]
+	},
+
+	// MainEditorView as MV
+	// SV:getMainEditor or MV:get
+	"MV:getCurrentGroup() → {NoteGroupReference}":{
+		"prefix":"MV:getCurrentGroup",
+		"body":[
+			":getCurrentGroup()"
+		],
+		"description":[
+			"ユーザーが現在作業しているNoteGroupReferenceを取得します。",
+			"ユーザーがNoteGroupReferenceを開いていない場合、現在のトラックのメイングループを返します。",
+			"@return {NoteGroupReference}",
+			""
+		]
+	},
+	"MV:getCurrentTrack() → {Track}":{
+		"prefix":"MV:getCurrentTrack",
+		"body":[
+			":getCurrentTrack()"
+		],
+		"description":[
+			"ピアノロールで開いているTrackを取得します。",
+			"@return {Track}",
+			""
+		]
+	},
+	"MV:getNavigation() → {CoordinateSystem}":{
+		"prefix":"MV:getNavigation",
+		"body":[
+			":getNavigation()"
+		],
+		"description":[
+			"ピアノロールのCoordinateSystemを取得します。",
+			"@return {CoordinateSystem}",
+			""
+		]
+	},
+	"MV:getSelection() → {TrackInnerSelectionState}":{
+		"prefix":"MV:getSelection",
+		"body":[
+			":getSelection()"
+		],
+		"description":[
+			"ピアノロールの選択状態オブジェクトを取得します。",
+			"@return {TrackInnerSelectionState}",
+			""
+		]
+	},
+
+	// Note as NT
+	// SV:createNote or NT:create
+	"NT:clone() → {Note}":{
+		"prefix":[
+			"NT:clone"
+		],
+		"body":[
+			":clone()"
+		],
+		"description":[
+			"現在のオブジェクトの深いコピー。",
+			"@return {Note}",
+			""
+		]
+	},
+	"NT:getAttributes() → {object}":{
+		"prefix":[
+			"NT:getAttributes"
+		],
+		"body":[
+			":getAttributes()"
+		],
+		"description":[
+			"ノートのプロパティを保持するオブジェクトを取得します。",
+			"詳しくはサイトを参照してください。",
+			"@return {object}",
+			""
+		]
+	},
+	"NT:getDuration() → {number}":{
+		"prefix":[
+			"NT:getDuration"
+		],
+		"body":[
+			":getDuration()"
+		],
+		"description":[
+			"ノートの長さを取得します。",
+			"単位はブリックです。",
+			"@return {number}",
+			""
+		]
+	},
+	"NT:getEnd() → {number}":{
+		"prefix":[
+			"NT:getEnd"
+		],
+		"body":[
+			":getEnd()"
+		],
+		"description":[
+			"ノートの終了位置（開始位置＋長さ）を取得します。",
+			"単位はブリックです。",
+			"@return {number}",
+			""
+		]
+	},
+	"NT:getLyrics() → {string}":{
+		"prefix":[
+			"NT:getLyrics"
+		],
+		"body":[
+			":getLyrics()"
+		],
+		"description":[
+			"現在のノートの歌詞を取得します。",
+			"@return {string}",
+			""
+		]
+	},
+	"NT:getOnset() → {number}":{
+		"prefix":[
+			"NT:getOnset"
+		],
+		"body":[
+			":getOnset()"
+		],
+		"description":[
+			"ノートの開始位置を取得します。",
+			"単位はブリックです。",
+			"@return {number}",
+			""
+		]
+	},
+	"NT:getPhonemes() → {string}":{
+		"prefix":[
+			"NT:getPhonemes"
+		],
+		"body":[
+			":getPhonemes()"
+		],
+		"description":[
+			"ユーザがノートに設定した音素をスペース区切りで返します。",
+			"例：\"hh ah ll ow\"。",
+			"音素が設定されていない場合は、デフォルトの発音ではなく空の文字列を返します。",
+			"@return {string}",
+			""
+		]
+	},
+	"NT:getPitch() → {number}":{
+		"prefix":[
+			"NT:getPitch"
+		],
+		"body":[
+			":getPitch()"
+		],
+		"description":[
+			"ピッチをMIDIノート番号で取得します。",
+			"C4は60に対応します。",
+			"@return {number}",
+			""
+		]
+	},	
+	"NT:setAttributes(object)":{
+		"prefix":[
+			"NT:setAttributes"
+		],
+		"body":[
+			":setAttributes(${1:object})"
+		],
+		"description":[
+			"属性オブジェクトに基づいてノートプロパティを設定します。",
+			"詳しくはサイトを参照してください。",
+			"@param {attributes} object",
+			""
+		]
+	},
+	"NT:setDuration(t)":{
+		"prefix":[
+			"NT:setDuration"
+		],
+		"body":[
+			":setDuration()"
+		],
+		"description":[
+			"ノートの長さをtに変更します。",
+			"単位はブリックです。",
+			"終了位置も変更されますが、開始位置は変更されません。",
+			"@param {number} t",
+			""
+		]
+	},
+	"NT:setLyrics(lyrics)":{
+		"prefix":[
+			"NT:setLyrics"
+		],
+		"body":[
+			":setLyrics(${1:lyrics})"
+		],
+		"description":[
+			"歌詞を変更します。",
+			"@param {string} lyrics",
+			""
+		]
+	},
+	"NT:setOnset(t)":{
+		"prefix":[
+			"NT:setOnset"
+		],
+		"body":[
+			":setOnset()"
+		],
+		"description":[
+			"ノートをtから始まるように移動します。",
+			"単位はブリックです。",
+			"長さは変わりません。",
+			"@param {number} t",
+			""
+		]
+	},
+	"NT:setPhonemes(phoneme_str)":{
+		"prefix":[
+			"NT:setPhonemes"
+		],
+		"body":[
+			":setPhonemes(${1:phoneme_str})"
+		],
+		"description":[
+			"音素をphoneme_strに変更します。",
+			"例：\"hh ah ll ow \"。",
+			"@param {string} phoneme_str",
+			""
+		]
+	},
+	"NT:setPitch(pitchNumber)":{
+		"prefix":[
+			"NT:setPitch"
+		],
+		"body":[
+			":setPitch(${1:pitchNumber})"
+		],
+		"description":[
+			"ピッチをMIDIノート番号pitchNumberに設定します。",
+			"@param {number} pitchNumber",
+			""
+		]
+	},
+	"NT:setTimeRange(onset, duration)":{
+		"prefix":[
+			"NT:setTimeRange"
+		],
+		"body":[
+			":setTimeRange(${1:onset}, ${2:duration})"
+		],
+		"description":[
+			"開始位置と長さの両方を設定します。",
+			"setOnset(onset)とsetDuration(duration)の両方を呼び出すのと同じです。",
+			"@param {number} onset",
+			"@param {number} duration",
+			""
+		]
+	},
+
+	// NoteGroup as NG
+	// SV:createNoteGroup or NG:create
+	"NG:addNote(note) → {number}":{
+		"prefix":[
+			"NG:addNote"
+		],
+		"body":[
+			":addNote(${1:note})"
+		],
+		"description":[
+			"このNoteGroupにノートを追加し、追加したノートの添え字を返します。",
+			"ノートは、開始位置について昇順にソートされています。",
+			"@param {Note} note",
+			"@return {number}",
+			""
+		]
+	},
+	"NG:clone() → {NoteGroup}":{
+		"prefix":[
+			"NG:clone"
+		],
+		"body":[
+			":clone()"
+		],
+		"description":[
+			"現在のオブジェクトの深いコピー。",
+			"@return {NoteGroup}",
+			""
+		]
+	},
+	"NG:getName() → {string}":{
+		"prefix":[
+			"NG:getName"
+		],
+		"body":[
+			":getName()"
+		],
+		"description":[
+			"ユーザが設定したこのNoteGroupの名前を取得する。",
+			"@return {string}",
+			""
+		]
+	},
+	"NG:getNote(index) → {Note}":{
+		"prefix":[
+			"NG:getNote"
+		],
+		"body":[
+			":getNote(${1:index})"
+		],
+		"description":[
+			"添え字がindexのノートを取得します。",
+			"NoteGroup内のノートは常に開始位置の順でソートされます。",
+			"@param {number} index",
+			"@return {Note}",
+			""
+		]
+	},
+	"NG:getNumNotes() → {number}":{
+		"prefix":[
+			"NG:getNumNotes"
+		],
+		"body":[
+			":getNumNotes()"
+		],
+		"description":[
+			"NoteGroupのノートの数を取得します。",
+			"@return {number}",
+			""
+		]
+	},
+	"NG:getParameter(type) → {Automation}":{
+		"prefix":[
+			"NG:getParameter"
+		],
+		"body":[
+			":getParameter(${1:type})"
+		],
+		"description":[
+			"パラメータtypeのAutomationオブジェクトを取得します。",
+			"大文字小文字は区別されません。",
+			"typeはAutomation:getDefinitionにあるテーブルのtypeName列中のいずれかの文字列でなければならない。",
+			"@param {string} type",
+			"@return {Automation}",
+			""
+		]
+	},
+	"NG:getUUID() → {string}":{
+		"prefix":[
+			"NG:getUUID"
+		],
+		"body":[
+			":getUUID()"
+		],
+		"description":[
+			"Universally Unique Identifierを取得します。",
+			"名前とは違い、UUIDはプロジェクト全体で一意なので、NoteGroupReferenceとNoteGroupを関連付けるために使用することができます。",
+			"UUIDは次のようなものになります：\"ab85d637-d80b-4628-9c27-007ea74029af\" 。",
+			"@return {string}",
+			""
+		]
+	},
+	"NG:removeNote(index)":{
+		"prefix":[
+			"NG:removeNote"
+		],
+		"body":[
+			":removeNote(${1:index})"
+		],
+		"description":[
+			"添え字がindexのノートを削除します。",
+			"@param {number} index",
+			""
+		]
+	},
+	"NG:setName(name)":{
+		"prefix":[
+			"NG:setName"
+		],
+		"body":[
+			":setName(${1:name})"
+		],
+		"description":[
+			"このNoteGroupの名前を設定します。",
+			"@param {string} name",
+			""
+		]
+	},
+
+	// NoteGroupReference as GR
+	// SV:createNoteGroupReference or GR:create
+	"GR:clone() → {NoteGroupReference}":{
+		"prefix":[
+			"GR:clone"
+		],
+		"body":[
+			":clone()"
+		],
+		"description":[
+			"現在のオブジェクトの深いコピー。",
+			"注意：NoteGroupReferenceは参照対象NoteGroupを所有していないので、NoteGroupをコピーしません。",
+			"@return {NoteGroupReference}",
+			""
+		]
+	},
+	"GR:getDuration() → {number}":{
+		"prefix":[
+			"GR:getDuration"
+		],
+		"body":[
+			":getDuration()"
+		],
+		"description":[
+			"現在のNoteGroupReferenceの長さ（ブリック）。",
+			"getEnd()-getOnset()に等しいです。",
+			"@return {number}",
+			""
+		]
+	},
+	"GR:getEnd() → {number}":{
+		"prefix":[
+			"GR:getEnd"
+		],
+		"body":[
+			":getEnd()"
+		],
+		"description":[
+			"終了位置（ブリック）、つまり、対象NoteGroupの最後のノートの終了位置に時間オフセットを加えたものを取得します。",
+			"@return {number}",
+			""
+		]
+	},
+	"GR:getOnset() → {number}":{
+		"prefix":[
+			"GR:getOnset"
+		],
+		"body":[
+			":getOnset()"
+		],
+		"description":[
+			"開始位置（ブリック）を取得します。",
+			"つまり、対象NoteGroup内の最初のNoteの開始位置（ブリック）に時間オフセットを加えたものを取得します。",
+			"@return {number}",
+			""
+		]
+	},
+	"GR:getPitchOffset() → {number}":{
+		"prefix":[
+			"GR:getPitchOffset"
+		],
+		"body":[
+			":getPitchOffset()"
+		],
+		"description":[
+			"対象NoteGroup内のすべてのノートに適用されるピッチシフト（半音）を取得します。",
+			"@return {number}",
+			""
+		]
+	},
+	"GR:getTarget() → {NoteGroup}":{
+		"prefix":[
+			"GR:getTarget"
+		],
+		"body":[
+			":getTarget()"
+		],
+		"description":[
+			"参照対象のNoteGroupを取得します。",
+			"@return {NoteGroup}",
+			""
+		]
+	},
+	"GR:getTimeOffset() → {number}":{
+		"prefix":[
+			"GR:getTimeOffset"
+		],
+		"body":[
+			":getTimeOffset()"
+		],
+		"description":[
+			"対象NoteGroup内のすべてのノートに適用される時間オフセット（ブリック）を取得します。",
+			"@return {number}",
+			""
+		]
+	},
+	"GR:getVoice() → {object}":{
+		"prefix":[
+			"GR:getVoice"
+		],
+		"body":[
+			":getVoice()"
+		],
+		"description":[
+			"現在のグループのデフォルト歌声プロパティを保持するオブジェクトを取得します。",
+			"詳しくはサイトを参照してください。",
+			"@return {object}",
+			""
+		]
+	},
+	"GR:isInstrumental() → {boolean}":{
+		"prefix":[
+			"GR:isInstrumental"
+		],
+		"body":[
+			":isInstrumental()"
+		],
+		"description":[
+			"このNoteGroupReferenceが外部のオーディオファイルを参照しているかどうか。",
+			"そうである場合、NoteGroupは参照対象とならない。",
+			"@return {boolean}",
+			""
+		]
+	},
+	"GR:isMain() → {boolean}":{
+		"prefix":[
+			"GR:isMain"
+		],
+		"body":[
+			":isMain()"
+		],
+		"description":[
+			"このNoteGroupReferenceが親Trackのメイングループを参照対象としているかどうか。",
+			"@return {boolean}",
+			""
+		]
+	},
+	"GR:setPitchOffset(pitchOffset)":{
+		"prefix":[
+			"GR:setPitchOffset"
+		],
+		"body":[
+			":setPitchOffset(${1:pitchOffset})"
+		],
+		"description":[
+			"ピッチオフセットをpitchOffset（半音）に設定する。",
+			"@param {number} pitchOffset",
+			""
+		]
+	},	
+	"GR:setTarget(group)":{
+		"prefix":[
+			"GR:setTarget"
+		],
+		"body":[
+			":setTarget(${1:group})"
+		],
+		"description":[
+			"参照対象のNoteGroupを設定します。",
+			"一度設定した参照対象は変更できないことに注意してください。",
+			"@param {NoteGroup} group",
+			""
+		]
+	},
+	"GR:setTimeOffset(blickOffset)":{
+		"prefix":[
+			"GR:setTimeOffset"
+		],
+		"body":[
+			":setTimeOffset(${1:blickOffset})"
+		],
+		"description":[
+			"時間オフセットをblickOffset（ブリック）に設定します。",
+			"@param {number} blickOffset",
+			""
+		]
+	},
+	"GR:setVoice(attributes)":{
+		"prefix":[
+			"GR:setVoice"
+		],
+		"body":[
+			"GR:setVoice(${1:attributes})"
+		],
+		"description":[
+			"属性オブジェクトに基づいて歌声プロパティを設定します。",
+			"詳しくはサイトを参照してください。",
+			"@param {object} attributes", 
+			""
+		]
+	},
+
+	// PlaybackControl as PB
+	// SV:getPlayback or PB:get
+	"PB:getPlayhead() → {number}":{
+		"prefix":[
+			"PB:getPlayhead"
+		],
+		"body":[
+			":getPlayhead()"
+		],
+		"description":[
+			"現在のプレイヘッドの位置を取得します（単位：秒）。",
+			"単位をブリックに変換するには、現在のプロジェクトのTimeAxisをお使いください。",
+			"@return {number}",
+			""
+		]
+	},
+	"PB:getStatus() → {string}":{
+		"prefix":[
+			"PB:getStatus"
+		],
+		"body":[
+			":getStatus()"
+		],
+		"description":[
+			"現在のプレイバック状態を取得します。以下のいずれかになります。",
+			"・\"playing\"",
+			"・\"looping\"",
+			"・\"stopped\"",
+			"@return {string}",
+			""
+		]
+	},
+	"PB:loop(tBegin, tEnd)":{
+		"prefix":[
+			"PB:loop"
+		],
+		"body":[
+			":loop(${1:tBegin}, ${2:tEnd})"
+		],
+		"description":[
+			"tBeginとtEndの間のループを開始する（単位：秒）。",
+			"@param {number} tBegin",
+			"@param {number} tEnd",
+			""
+		]
+	},
+	"PB:pause()":{
+		"prefix":[
+			"PB:pause"
+		],
+		"body":[
+			":pause()"
+		],
+		"description":[
+			"再生を停止しますが、プレイヘッドはリセットしません。",
+			""
+		]
+	},
+	"PB:play()":{
+		"prefix":[
+			"PB:play"
+		],
+		"body":[
+			":play()"
+		],
+		"description":[
+			"オーディオの再生を開始します。",
+			""
+		]
+	},
+	"PB:seek(t)":{
+		"prefix":[
+			"PB:seek"
+		],
+		"body":[
+			":seek(${1:t})"
+		],
+		"description":[
+			"プレイヘッドの位置をtに設定します（単位：秒）。",
+			"オーディオが再生中の場合、一時停止はせずに、新しい位置から再生をします。",
+			"@param {number} t",
+			""
+		]
+	},
+	"PB:stop()":{
+		"prefix":[
+			"PB:stop"
+		],
+		"body":[
+			":stop()"
+		],
+		"description":[
+			"再生を停止し、再生を開始した位置にプレイヘッドをリセットします。",
+			""
+		]
+	},	
+
+	// Project as PJ
+	// SV:getProject or PJ:get
+	"PJ:addNoteGroup(group, suggestedIndex) → {number}":{
+		"prefix":[
+			"PJ:addNoteGroup"
+		],
+		"body":[
+			":addNoteGroup(${1:group}, ${2:suggestedIndex})"
+		],
+		"description":[
+			"プロジェクトライブラリの添え字suggestedIndexの位置にNoteGroupを挿入します。",
+			"suggestedIndexが与えられていない場合は、NoteGroupを末尾に追加します。",
+			"追加されたNoteGroupの添え字を返します。",
+			"@param {NoteGroup} group",
+			"@param {number} suggestedIndex (optional)",
+			"@return {number}",
+			""
+		]
+	},
+	"PJ:addTrack(track) → {number}":{
+		"prefix":[
+			"PJ:addTrack"
+		],
+		"body":[
+			":addTrack(${1:track})"
+		],
+		"description":[
+			"ProjectにTrackを追加します。",
+			"追加されたTrackの添え字を返します。",
+			"@param {Track} track",
+			"@return {number}",
+			""
+		]
+	},
+	"PJ:getDuration() → {number}":{
+		"prefix":[
+			"PJ:getDuration"
+		],
+		"body":[
+			":getDuration()"
+		],
+		"description":[
+			"Projectの長さ（ブリック）を取得します。",
+			"最長のTrackの長さとして定義されています。",
+			"@return {number}",
+			""
+		]
+	},
+	"PJ:getFileName() → {string}":{
+		"prefix":[
+			"PJ:getFileName"
+		],
+		"body":[
+			":getFileName()"
+		],
+		"description":[
+			"このプロジェクトのファイルシステム上での絶対パスを取得します。",
+			"@return {string}",
+			""
+		]
+	},
+	"PJ:getNoteGroup(id) → {NoteGroup|undefined}":{
+		"prefix":[
+			"PJ:getNoteGroup"
+		],
+		"body":[
+			":getNoteGroup(${1:id})"
+		],
+		"description":[
+			"idが数値の場合、プロジェクトライブラリのid番目のNoteGroupを取得します。",
+			"idが文字列の場合、プロジェクトライブラリの中でidをUUIDとするNoteGroupを取得します。",
+			"そのようなNoteGroupが存在しない場合はundefinedを返します。",
+			"@param {number | string} id",
+			"@return {NoteGroup}",
+			"@return {undefined} - NoteGroupが存在しない場合",
+			""
+		]
+	},
+	"PJ:getNumNoteGroupsInLibrary() → {number}":{
+		"prefix":[
+			"PJ:getNumNoteGroupsInLibrary"
+		],
+		"body":[
+			":getNumNoteGroupsInLibrary()"
+		],
+		"description":[
+			"プロジェクトライブラリのNoteGroupの数を取得します。",
+			"メイングループはカウントされず、NoteGroupReferenceの数とは無関係です。",
+			"@return {number}",
+			""
+		]
+	},
+	"PJ:getNumTracks() → {number}":{
+		"prefix":[
+			"PJ:getNumTracks"
+		],
+		"body":[
+			":getNumTracks()"
+		],
+		"description":[
+			"トラックの数を取得します。",
+			"@return {number}",
+			""
+		]
+	},
+	"PJ:getTrack(index) → {Track}":{
+		"prefix":[
+			"PJ:getTrack"
+		],
+		"body":[
+			":getTrack(${1:index})"
+		],
+		"description":[
+			"添え字がindexのTrackを取得します。",
+			"添え字は表示順ではなく、ストレージ配置順となります。",
+			"@param {number} index",
+			"@return {Track}",
+			""
+		]
+	},
+	"PJ:newUndoRecord()":{
+		"prefix":[
+			"PJ:newUndoRecord"
+		],
+		"body":[
+			":newUndoRecord()"
+		],
+		"description":[
+			"このProjectに新しい編集記録を追加する。",
+			"ユーザがCtrl+Z/Ctrl+Yを押したとき、最後の編集記録に続くすべての編集が一緒に元に戻される/やり直されることを意味します。",
+			"スクリプトの実行開始時に、現在開いているプロジェクトに新しい編集記録が自動的に追加されます。",
+			""
+		]
+	},	
+	"PJ:removeNoteGroup(index)":{
+		"prefix":[
+			"PJ:removeNoteGroup"
+		],
+		"body":[
+			":removeNoteGroup(${1:index})"
+		],
+		"description":[
+			"プロジェクトライブラリからindex番目のNoteGroupを削除します。",
+			"NoteGroupを参照しているすべてのNoteGroupReferenceも削除されます。",
+			"@param {number} index",
+			""
+		]
+	},
+	"PJ:removeTrack(index)":{
+		"prefix":[
+			"PJ:removeTrack"
+		],
+		"body":[
+			":removeTrack(${1:index})"
+		],
+		"description":[
+			"Projectからindex番目のTrackを削除します。",
+			"@param {number} index",
+			""
+		]
+	},
+
+	// TimeAxis as TA
+	// SV:createTimeAxis or TA:create	
+	// SV:getTimeAxis or PJ:getTimeAxis or TA:get
+	"TA:addMeasureMark(measure, nomin, denom)":{
+		"prefix":[
+			"TA:addMeasureMark"
+		],
+		"body":[
+			":addMeasureMark(${1:measure}, ${2:nomin}, ${3:denom})"
+		],
+		"description":[
+			"measure番目の小節に小節記号nomin/denomを挿入します。",
+			"measure番目の小節に小節記号が存在する場合、それを更新します。",
+			"@param {number} measure",
+			"@param {number} nomin",
+			"@param {number} denom",
+			""
+		]
+	},
+	"TA:addTempoMark(b, bpm)":{
+		"prefix":[
+			"TA:addTempoMark"
+		],
+		"body":[
+			":addTempoMark(${1:b}, ${2:bpm})"
+		],
+		"description":[
+			"テンポ記号bpmをb（ブリック）の位置に挿入します。",
+			"bの位置にテンポ記号がある場合、BPMを更新します。",
+			"@param {number} b",
+			"@param {number} bpm",
+			""
+		]
+	},
+	"TA:clone() → {TimeAxis}":{
+		"prefix":[
+			"TA:clone"
+		],
+		"body":[
+			":clone()"
+		],
+		"description":[
+			"現在のオブジェクトの深いコピー。",
+			"@return {TimeAxis}",
+			""
+		]
+	},
+	"TA:getAllMeasureMarks() → {array}":{
+		"prefix":[
+			"TA:getAllMeasureMarks"
+		],
+		"body":[
+			":getAllMeasureMarks()"
+		],
+		"description":[
+			"このTimeAxis内のすべての拍子記号を取得します。",
+			"TimeAxis:getMeasureMarkAtを参照してください。",
+			"@return {array.<object>}",
+			""
+		]
+	},
+	"TA:getAllTempoMarks() → {array}":{
+		"prefix":[
+			"TA:getAllTempoMarks"
+		],
+		"body":[
+			":getAllTempoMarks()"
+		],
+		"description":[
+			"このTimeAxis内のすべてのテンポ記号を取得します。",
+			"TimeAxis:getTempoMarkAtを参照してください。",
+			"@return {array.<object>}",
+			""
+		]
+	},
+	"TA:getBlickFromSeconds(t) → {number}":{
+		"prefix":[
+			"TA:getBlickFromSeconds"
+		],
+		"body":[
+			":getBlickFromSeconds(${1:t})"
+		],
+		"description":[
+			"物理的時間t（秒）を音楽的時間（ブリック）に変換します。",
+			"@param {number} t",
+			"@return {number}",
+			""
+		]
+	},
+	"TA:getMeasureAt(b) → {number}":{
+		"prefix":[
+			"TA:getMeasureAt"
+		],
+		"body":[
+			":getMeasureAt(${1:b})"
+		],
+		"description":[
+			"位置b（ブリック）の小節番号を取得します。",
+			"@param {number} b",
+			"@return {number}",
+			""
+		]
+	},	
+	"TA:getMeasureMarkAt(measureNumber) → {object}":{
+		"prefix":[
+			"TA:getMeasureMarkAt"
+		],
+		"body":[
+			":getMeasureMarkAt(${1:measureNumber})"
+		],
+		"description":[
+			"measureNumber小節の拍子記号を取得します。",
+			"返されるオブジェクトには、以下のプロパティがあります。",
+			"・position: number拍子記号が置かれる小節の番号",
+			"・positionBlick: number拍子記号の位置（ブリック）",
+			"・numerator: number分子（例：3/4拍子の場合は3）",
+			"・denominator: number分母（例：3/4拍子の場合は4）",
+			"@param {number} measureNumber",
+			"@return {object}",
+			""
+		]
+	},
+	"TA:getMeasureMarkAtBlick(b) → {object}":{
+		"prefix":[
+			"TA:getMeasureMarkAtBlick"
+		],
+		"body":[
+			":getMeasureMarkAtBlick(${1:b})"
+		],
+		"description":[
+			"位置b（ブリック）で有効な拍子記号を取得します。",
+			"返されるオブジェクトについては、TimeAxis:getMeasureMarkAtを参照してください。",
+			"@param {number} b",
+			"@return {object}",
+			""
+		]
+	},
+	"TA:getSecondsFromBlick(b) → {number}":{
+		"prefix":[
+			"TA:getSecondsFromBlick"
+		],
+		"body":[
+			":getSecondsFromBlick(${1:b})"
+		],
+		"description":[
+			"音楽的時間b（ブリック）を物理的時間（秒）に変換します。",
+			"@param {number} b",
+			"@return {number}",
+			""
+		]
+	},
+	"TA:getTempoMarkAt(b) → {TempoMark}":{
+		"prefix":[
+			"TA:getTempoMarkAt"
+		],
+		"body":[
+			":getTempoMarkAt(${1:b})"
+		],
+		"description":[
+			"位置b（ブリック）で有効なテンポ記号を取得します。",
+			"返されるオブジェクトには、以下のプロパティがあります。",
+			"・position: numberテンポ記号の位置（ブリック）",
+			"・positionSeconds: numberテンポ記号の位置（秒）",
+			"・bpm: numberこのテンポ記号から次のテンポ記号まで有効なBPM",
+			"@param {number} b",
+			"@return {TempoMark}",
+			""
+		]
+	},
+	"TA:removeMeasureMark(measure) → {boolean}":{
+		"prefix":[
+			"TA:removeMeasureMark"
+		],
+		"body":[
+			":removeMeasureMark(${1:measure})"
+		],
+		"description":[
+			"measure番目の小節にある小節記号を削除します。",
+			"measure番目の小節に小節記号が存在する場合、真を返します。",
+			"@param {number} measure",
+			"@return {boolean}",
+			""
+		]
+	},
+	"TA:removeTempoMark(b) → {boolean}":{
+		"prefix":[
+			"TA:removeTempoMark"
+		],
+		"body":[
+			":removeTempoMark(${1:b})"
+		],
+		"description":[
+			"位置b（ブリック）のテンポ記号を削除します。",
+			"bの位置にテンポ記号がある場合、真を返します。",
+			"@param {number} b",
+			"@return {boolean}",
+			""
+		]
+	},
+
+	// Track as TK
+	// SV:createTrack or TK:create
+	// PJ:getTrack
+	"TK:addGroupReference(group) → {number}":{
+		"prefix":[
+			"TK:addGroupReference"
+		],
+		"body":[
+			":addGroupReference(${1:group})"
+		],
+		"description":[
+			"このTrackにNoteGroupReferenceを追加し、その添え字を返します。",
+			"開始位置についてソートされた状態を保持します。",
+			"@param {NoteGroupReference} group",
+			"@return {number}",
+			""
+		]
+	},
+	"TK:clone() → {Track}":{
+		"prefix":[
+			"TK:clone"
+		],
+		"body":[
+			":clone()"
+		],
+		"description":[
+			"現在のオブジェクトの深いコピー。",
+			"@return {Track}",
+			""
+		]
+	},
+	"TK:getDisplayColor() → {string}":{
+		"prefix":[
+			"TK:getDisplayColor"
+		],
+		"body":[
+			":getDisplayColor()"
+		],
+		"description":[
+			"トラックの色を16進文字列として取得します。",
+			"@return {string}",
+			""
+		]
+	},
+	"TK:getDisplayOrder() → {number}":{
+		"prefix":[
+			"TK:getDisplayOrder"
+		],
+		"body":[
+			":getDisplayOrder()"
+		],
+		"description":[
+			"親Project内でのこのトラックの表示順位を取得します。",
+			"トラックの表示順は、そのストレージインデックスとは異なる場合があります。",
+			"トラックエリアで表示されるトラックの順番は、常にこの表示順位をもとにしたものになります。",
+			"@return {number}",
+			""
+		]
+	},	
+	"TK:getDuration() → {number}":{
+		"prefix":[
+			"TK:getDuration"
+		],
+		"body":[
+			":getDuration()"
+		],
+		"description":[
+			"Trackの長さ（ブリック）を取得します。",
+			"最後のNoteGroupReferenceの終了位置として定義されています。",
+			"@return {number}",
+			""
+		]
+	},
+	"TK:getGroupReference(index) → {NoteGroupReference}":{
+		"prefix":[
+			"TK:getGroupReference"
+		],
+		"body":[
+			":getGroupReference(${1:index})"
+		],
+		"description":[
+			"添え字がindexのNoteGroupReferenceを取得します。",
+			"1番目は常にメイングループです。",
+			"その後にプロジェクトライブラリのNoteGroupへの参照が続きます。",
+			"開始位置について昇順でソートされています。",
+			"@param {number} index",
+			"@return {NoteGroupReference}",
+			""
+		]
+	},
+	"TK:getName() → {string}":{
+		"prefix":[
+			"TK:getName"
+		],
+		"body":[
+			":getName()"
+		],
+		"description":[
+			"トラック名を取得します。",
+			"@return {string}",
+			""
+		]
+	},
+	"TK:getNumGroups() → {number}":{
+		"prefix":[
+			"TK:getNumGroups"
+		],
+		"body":[
+			":getNumGroups()"
+		],
+		"description":[
+			"このTrackに含まれるNoteGroupReferenceの数を取得します。",
+			"メイングループも数えられます。",
+			"@return {number}",
+			""
+		]
+	},
+	"TK:isBounced() → {boolean}":{
+		"prefix":[
+			"TK:isBounced"
+		],
+		"body":[
+			":isBounced()"
+		],
+		"description":[
+			"レンダリングパネルに表示されるファイルに書き出すかどうか確認します。",
+			"@return {boolean}",
+			""
+		]
+	},
+	"TK:removeGroupReference(index)":{
+		"prefix":[
+			"TK:removeGroupReference"
+		],
+		"body":[
+			":removeGroupReference(${1:index})"
+		],
+		"description":[
+			"このTrackからindex番目のNoteGroupReferenceを削除します。",
+			"@param {number} index",
+			""
+		]
+	},
+	"TK:setBounced(enabled)":{
+		"prefix":[
+			"TK:setBounced"
+		],
+		"body":[
+			":setBounced(${1:enabled})"
+		],
+		"description":[
+			"Trackをファイルに書き出すかどうか設定します。",
+			"Track#isBouncedを参照してください。",
+			"@param {boolean} enabled",
+			""
+		]
+	},
+	"TK:setDisplayColor(colorStr)":{
+		"prefix":[
+			"TK:setDisplayColor"
+		],
+		"body":[
+			":setDisplayColor(${1:colorStr})"
+		],
+		"description":[
+			"Trackの表示色を設定します（引数：16進文字列）。",
+			"@param {string} colorStr",
+			""
+		]
+	},
+	"TK:setName(name)":{
+		"prefix":[
+			"TK:setName"
+		],
+		"body":[
+			":setName(${1:name})"
+		],
+		"description":[
+			"Track の名前を設定します。",
+			"@param {string} name",
+			""
+		]
+	},
+
+	// TrackInnerSelectionState as TS
+	// others inner GroupSelection, SelectionStateBase, and NestedObject
+	"TS:clearNotes() → {boolean}":{
+		"prefix":[
+			"TS:clearNotes"
+		],
+		"body":[
+			":clearNotes()"
+		],
+		"description":[
+			"すべてのノートの選択を解除します。",
+			"選択が変更された場合、真を返します。",
+			"@return {boolean}",
+			""
+		]
+	},	
+	"TS:getSelectedNotes() → {array}":{
+		"prefix":[
+			"TS:getSelectedNotes"
+		],
+		"body":[
+			":getSelectedNotes()"
+		],
+		"description":[
+			"選択されたNoteの配列を、選択順に取得します。",
+			"@return {array.<Note>}",
+			""
+		]
+	},
+	"TS:hasSelectedNotes() → {boolean}":{
+		"prefix":[
+			"TS:hasSelectedNotes"
+		],
+		"body":[
+			":hasSelectedNotes()"
+		],
+		"description":[
+			"選択されているNoteがひとつ以上あるかどうか確認します。",
+			"@return {boolean}",
+			""
+		]
+	},
+	"TS:selectNote(note)":{
+		"prefix":[
+			"TS:selectNote"
+		],
+		"body":[
+			":selectNote()"
+		],
+		"description":[
+			"Noteを選択します。",
+			"ノートは、ピアノロールで開かれているNoteGroupReferenceの中になければなりません。",
+			"@param {Note} note",
+			"@return ",
+			""
+		]
+	},
+	"TS:unselectNote(note) → {boolean}":{
+		"prefix":[
+			"TS:unselectNote"
+		],
+		"body":[
+			":unselectNote(${1:note})"
+		],
+		"description":[
+			"Noteの選択を解除します。",
+			"選択が変更された場合、真を返します。",
+			"@param {Note} note",
+			"@return {boolean}",
+			""
+		]
+	},
+
+
+	// GroupSelection
+	// 基底クラスのため継承
+	"clearGroups() → {boolean}":{
+		"prefix":[
+			"AS:clearGroups",
+			"TS:clearGroups"
+		],
+		"body":[
+			":clearGroups()"
+		],
+		"description":[
+			"すべてのNoteGroupReferenceの選択を解除します。",
+			"選択範囲に変更があれば真を返します。",
+			"@return {boolean}",
+			""
+		]
+	},
+	"getSelectedGroups() → {array}":{
+		"prefix":[
+			"AS:getSelectedGroups",
+			"TS:getSelectedGroups"
+		],
+		"body":[
+			":getSelectedGroups()"
+		],
+		"description":[
+			"選択されたNoteGroupReferenceの配列を、選択順にしたがって取得します。",
+			"@return {array.<NoteGroupReference>}",
+			""
+		]
+	},
+	"hasSelectedGroups() → {boolean}":{
+		"prefix":[
+			"AS:hasSelectedGroups",
+			"TS:hasSelectedGroups"
+		],
+		"body":[
+			":hasSelectedGroups()"
+		],
+		"description":[
+			"NoteGroupReferenceが1つ以上選択されているか確認します。",
+			"@return {boolean}",
+			""
+		]
+	},
+	"selectGroup(reference)":{
+		"prefix":[
+			"AS:selectGroup",
+			"TS:selectGroup"
+		],
+		"body":[
+			"selectGroup(${1:reference})"
+		],
+		"description":[
+			"選択にNoteGroupReferenceを追加します。",
+			"引数は、現在開いているプロジェクトに含まれている必要があります。",
+			"@param {NoteGroupReference} reference",
+			""
+		]
+	},
+	"unselectGroup(reference) → {boolean}":{
+		"prefix":[
+			"AS:unselectGroup",
+			"TS:unselectGroup"
+		],
+		"body":[
+			"GS:unselectGroup(${1:reference})"
+		],
+		"description":[
+			"NoteGroupReferenceの選択を解除します。",
+			"選択範囲に変更があれば真を返します。",
+			"@param {NoteGroupReference} reference",
+			"@return {boolean}",
+			""
+		]
+	},
+
+	// NestedObject
+	// 基底クラスのため継承
+	"getIndexInParent() → {number}":{
+		"prefix":[
+			"AS:getIndexInParent",
+			"AV:getIndexInParent",
+			"AM:getIndexInParent",
+			"CS:getIndexInParent",
+			"MV:getIndexInParent",
+			"NG:getIndexInParent",
+			"NT:getIndexInParent",
+			"GR:getIndexInParent",
+			"PB:getIndexInParent",
+			"TA:getIndexInParent",
+			"TS:getIndexInParent",
+			"PJ:getIndexInParent",
+			"TK:getIndexInParent"
+		],
+		"body":[
+			":getIndexInParent()"
+		],
+		"description":[
+			"現在のオブジェクトの、親の中での添え字を取得します。",
+			"添え字は1から始まります。",
+			"@return {number}",
+			""
+		]
+	},
+	"getParent() → {NestedObject|undefined}":{
+		"prefix":[
+			"AS:getParent",
+			"AV:getParent",
+			"AM:getParent",
+			"CS:getParent",
+			"MV:getParent",
+			"NT:getParent",
+			"NG:getParent",
+			"GR:getParent",
+			"PB:getParent",
+			"TA:getParent",
+			"TS:getParent",
+			"PJ:getParent",
+			"TK:getParent"
+		],
+		"body":[
+			":getParent()"
+		],
+		"description":[
+			"親NestedObjectを取得します。",
+			"現在のオブジェクトが親に付いていない場合、undefinedを返します。",
+			"@return {NestedObject}",
+			"@return {undefined} - 親がついていない場合",
+			""
+		]
+	},
+	"isMemoryManaged() → {boolean}":{
+		"prefix":[
+			"AS:isMemoryManaged",
+			"AV:isMemoryManaged",
+			"AM:isMemoryManaged",
+			"CS:isMemoryManaged",
+			"MV:isMemoryManaged",
+			"NT:isMemoryManaged",
+			"NG:isMemoryManaged",
+			"GR:isMemoryManaged",
+			"PB:isMemoryManaged",
+			"TA:isMemoryManaged",
+			"TS:isMemoryManaged",
+			"PJ:isMemoryManaged",
+			"TK:isMemoryManaged"
+		],
+		"body":[
+			":isMemoryManaged()"
+		],
+		"description":[
+			"現在のオブジェクトがメモリ管理されているかどうか（スクリプト環境によってガベージコレクションされるか）を確認します。",
+			"@return {boolean}",
+			""
+		]
+	},
+
+
+	// SelectionStateBase
+	// 基底クラスのため継承
+	"clearAll() → {boolean}":{
+		"prefix":[
+			"AS:clearAll",
+			"TS:clearAll"
+		],
+		"body":[
+			":clearAll()"
+		],
+		"description":[
+			"この選択状態が対応しているすべてのオブジェクトタイプについて、該当するオブジェクトの選択を解除します。",
+			"選択に変更があった場合は真を返します。",
+			"@return {boolean}",
+			""
+		]
+	},
+	"hasSelectedContent() → {boolean}":{
+		"prefix":[
+			"AS:hasSelectedContent",
+			"TS:hasSelectedContent"
+		],
+		"body":[
+			":hasSelectedContent()"
+		],
+		"description":[
+			"選択されているものがあるかどうか確認します。",
+			"@return {boolean}",
+			""
+		]
+	},
+	"hasUnfinishedEdits() → {boolean}":{
+		"prefix":[
+			"AS:hasUnfinishedEdits",
+			"TS:hasUnfinishedEdits"
+		],
+		"body":[
+			":hasUnfinishedEdits()"
+		],
+		"description":[
+			"選択されたオブジェクトに未完了の編集があるかどうか確認します。",
+			"例えば、ユーザがいくつかのノート/制御点をドラッグしており、まだマウスを離していない場合、真を返します。",
+			"@return {boolean}",
+			""
+		]
+	}
+}
