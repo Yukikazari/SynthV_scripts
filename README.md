@@ -76,6 +76,12 @@
 
 <br>
 
+## snippetsフォルダについて
+詳しくはこちらを参照してください。  
+[紹介ブロマガ](https://ch.nicovideo.jp/hanayuki7793/blomaga/ar1946020)  
+
+<br>
+
 ## 更新履歴
 ### Return2OriginalPosition.lua
 2020/8/23 v1.2公開 名称の変更, 他言語対応  
