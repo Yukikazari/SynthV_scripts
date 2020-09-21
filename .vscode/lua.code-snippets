@@ -9,44 +9,9 @@
 	// 基本的に全て関数名や説明とは干渉しないようにしてあるので使いにくい部分は全置換で変更してください
 	// なお、関数名と同じ文字列が含まれる(MainEditor => MEなど ex.Name)名前は管理が面倒になるので推奨しません
 
-	// SV as SV
-	// ArrangementSelectionState as AS
-	// ArrangementView as AV
-	// Automation as AM
-	// CoordinateSystem as CS
-	// MainEditorView as MV
-	// Note as NT
-	// NoteGroup as NG
-	// NoteGroupReference as GR
-	// PlaybackControl as PB
-	// Project as PJ
-	// TimeAxis as TA
-	// TrackInnerSelectionState as TS
-
-	// 必要のないものはコメントアウトか削除により対応してください
-	//コメントアウトは
-	/*"SV:create(\"Note\") → {object}":{
-		"prefix":[
-			"SV:createNote",
-			"NT:create"
-		],
-		"body":[
-			"SV:create(\"Note\")"
-		],
-		"description":[
-			"新しくNoteオブジェクトを作成します。",
-			"\"Note\" ピッチ、歌詞、開始位置、長さなどで特徴づけられた音符。",
-			"@return {object}",
-			""
-		]
-	},
-	*/
-	// のような形で行うことができます
-
-	// 豆知識 基本的に1プロジェクトに1つしか実装されていないものは
-	// 〇〇(オブジェクト名の省略形):getで取れるようにしてあります
-	// SV:createに関しても同様に
-	// 〇〇(オブジェクト名の省略形):createで作れます。活用してください
+	// こちらはゆきかざりが実際に使用しているものになります。
+	// 一部prefixを変更していたり関数消し飛ばしていたりしますので導入する場合は
+	// snippetsディレクトリにあるファイルを利用することを推奨します。
  
 	// create
 	"SV:create(\"Note\") → {object}":{
@@ -1625,7 +1590,7 @@
 	},
 	"PB:pause()":{
 		"prefix":[
-			"PB:pause"
+			"pause"
 		],
 		"body":[
 			"pause()"
@@ -1637,7 +1602,7 @@
 	},
 	"PB:play()":{
 		"prefix":[
-			"PB:play"
+			"play"
 		],
 		"body":[
 			"play()"
@@ -1649,7 +1614,7 @@
 	},
 	"PB:seek(t)":{
 		"prefix":[
-			"PB:seek"
+			"seek"
 		],
 		"body":[
 			"seek(${1:t})"
@@ -1663,7 +1628,7 @@
 	},
 	"PB:stop()":{
 		"prefix":[
-			"PB:stop"
+			"stop"
 		],
 		"body":[
 			"stop()"
@@ -2179,20 +2144,20 @@
 			""
 		]
 	},
-	"TK:setBounced(enabled)":{
-		"prefix":[
-			"TK:setBounced"
-		],
-		"body":[
-			"setBounced(${1:enabled})"
-		],
-		"description":[
-			"Trackをファイルに書き出すかどうか設定します。",
-			"Track#isBouncedを参照してください。",
-			"@param {boolean} enabled",
-			""
-		]
-	},
+	// "TK:setBounced(enabled)":{
+	// 	"prefix":[
+	// 		"TK:setBounced"
+	// 	],
+	// 	"body":[
+	// 		"setBounced(${1:enabled})"
+	// 	],
+	// 	"description":[
+	// 		"Trackをファイルに書き出すかどうか設定します。",
+	// 		"Track#isBouncedを参照してください。",
+	// 		"@param {boolean} enabled",
+	// 		""
+	// 	]
+	// },
 	"TK:setDisplayColor(colorStr)":{
 		"prefix":[
 			"TK:setDisplayColor"
