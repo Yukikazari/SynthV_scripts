@@ -1168,7 +1168,7 @@
 			"NT:setOnset"
 		],
 		"body":[
-			"setOnset()"
+			"setOnset(${1:t})"
 		],
 		"description":[
 			"ノートをtから始まるように移動します。",
@@ -2338,84 +2338,84 @@
 
 	// NestedObject
 	// 基底クラスのため継承
-	"getIndexInParent() → {number}":{
-		"prefix":[
-			"AS:getIndexInParent",
-			"AV:getIndexInParent",
-			"AM:getIndexInParent",
-			"CS:getIndexInParent",
-			"MV:getIndexInParent",
-			"NG:getIndexInParent",
-			"NT:getIndexInParent",
-			"GR:getIndexInParent",
-			"PB:getIndexInParent",
-			"TA:getIndexInParent",
-			"TS:getIndexInParent",
-			"PJ:getIndexInParent",
-			"TK:getIndexInParent"
-		],
-		"body":[
-			"getIndexInParent()"
-		],
-		"description":[
-			"現在のオブジェクトの、親の中での添え字を取得します。",
-			"添え字は1から始まります。",
-			"@return {number}",
-			""
-		]
-	},
-	"getParent() → {NestedObject|undefined}":{
-		"prefix":[
-			"AS:getParent",
-			"AV:getParent",
-			"AM:getParent",
-			"CS:getParent",
-			"MV:getParent",
-			"NT:getParent",
-			"NG:getParent",
-			"GR:getParent",
-			"PB:getParent",
-			"TA:getParent",
-			"TS:getParent",
-			"PJ:getParent",
-			"TK:getParent"
-		],
-		"body":[
-			"getParent()"
-		],
-		"description":[
-			"親NestedObjectを取得します。",
-			"現在のオブジェクトが親に付いていない場合、undefinedを返します。",
-			"@return {NestedObject}",
-			"@return {undefined} - 親がついていない場合",
-			""
-		]
-	},
-	"isMemoryManaged() → {boolean}":{
-		"prefix":[
-			"AS:isMemoryManaged",
-			"AV:isMemoryManaged",
-			"AM:isMemoryManaged",
-			"CS:isMemoryManaged",
-			"MV:isMemoryManaged",
-			"NT:isMemoryManaged",
-			"NG:isMemoryManaged",
-			"GR:isMemoryManaged",
-			"PB:isMemoryManaged",
-			"TA:isMemoryManaged",
-			"TS:isMemoryManaged",
-			"PJ:isMemoryManaged",
-			"TK:isMemoryManaged"
-		],
-		"body":[
-			"isMemoryManaged()"
-		],
-		"description":[
-			"現在のオブジェクトがメモリ管理されているかどうか（スクリプト環境によってガベージコレクションされるか）を確認します。",
-			"@return {boolean}",
-			""
-		]
-	},
+	// "getIndexInParent() → {number}":{
+	// 	"prefix":[
+	// 		"AS:getIndexInParent",
+	// 		"AV:getIndexInParent",
+	// 		"AM:getIndexInParent",
+	// 		"CS:getIndexInParent",
+	// 		"MV:getIndexInParent",
+	// 		"NG:getIndexInParent",
+	// 		"NT:getIndexInParent",
+	// 		"GR:getIndexInParent",
+	// 		"PB:getIndexInParent",
+	// 		"TA:getIndexInParent",
+	// 		"TS:getIndexInParent",
+	// 		"PJ:getIndexInParent",
+	// 		"TK:getIndexInParent"
+	// 	],
+	// 	"body":[
+	// 		"getIndexInParent()"
+	// 	],
+	// 	"description":[
+	// 		"現在のオブジェクトの、親の中での添え字を取得します。",
+	// 		"添え字は1から始まります。",
+	// 		"@return {number}",
+	// 		""
+	// 	]
+	// },
+	// "getParent() → {NestedObject|undefined}":{
+	// 	"prefix":[
+	// 		"AS:getParent",
+	// 		"AV:getParent",
+	// 		"AM:getParent",
+	// 		"CS:getParent",
+	// 		"MV:getParent",
+	// 		"NT:getParent",
+	// 		"NG:getParent",
+	// 		"GR:getParent",
+	// 		"PB:getParent",
+	// 		"TA:getParent",
+	// 		"TS:getParent",
+	// 		"PJ:getParent",
+	// 		"TK:getParent"
+	// 	],
+	// 	"body":[
+	// 		"getParent()"
+	// 	],
+	// 	"description":[
+	// 		"親NestedObjectを取得します。",
+	// 		"現在のオブジェクトが親に付いていない場合、undefinedを返します。",
+	// 		"@return {NestedObject}",
+	// 		"@return {undefined} - 親がついていない場合",
+	// 		""
+	// 	]
+	// },
+	// "isMemoryManaged() → {boolean}":{
+	// 	"prefix":[
+	// 		"AS:isMemoryManaged",
+	// 		"AV:isMemoryManaged",
+	// 		"AM:isMemoryManaged",
+	// 		"CS:isMemoryManaged",
+	// 		"MV:isMemoryManaged",
+	// 		"NT:isMemoryManaged",
+	// 		"NG:isMemoryManaged",
+	// 		"GR:isMemoryManaged",
+	// 		"PB:isMemoryManaged",
+	// 		"TA:isMemoryManaged",
+	// 		"TS:isMemoryManaged",
+	// 		"PJ:isMemoryManaged",
+	// 		"TK:isMemoryManaged"
+	// 	],
+	// 	"body":[
+	// 		"isMemoryManaged()"
+	// 	],
+	// 	"description":[
+	// 		"現在のオブジェクトがメモリ管理されているかどうか（スクリプト環境によってガベージコレクションされるか）を確認します。",
+	// 		"@return {boolean}",
+	// 		""
+	// 	]
+	// },
 
 
 	// SelectionStateBase

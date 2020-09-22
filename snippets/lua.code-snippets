@@ -1,5 +1,5 @@
 {
-	// snippet v1.0
+	// snippet v1.1
 	// Synthesizer V script
 	// Copyright 2020 Yukikazari
 	// Apache2.0 License 
@@ -1215,7 +1215,7 @@
 			"NT:setOnset"
 		],
 		"body":[
-			":setOnset()"
+			"setOnset(${1:t})"
 		],
 		"description":[
 			"ノートをtから始まるように移動します。",
